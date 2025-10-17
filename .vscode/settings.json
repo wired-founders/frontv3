@@ -1,0 +1,21 @@
+{
+  "files.exclude": {
+    "**/.next": true,
+    "**/node_modules": true,
+    "**/public": true,
+
+    // Config clutter
+    "**/eslint.config.*": true,
+    "**/next-env.d.ts": true,
+    "**/next.config.*": true,
+    "**/.gitignore": false,
+    "**/tsconfig.json": false,
+    "**/postcss.config.*": true,
+
+    // lockfiles & docs
+    "**/package.json": false,
+    "**/pnpm-lock.yaml": true,
+    "**/README.md": true,
+    "**/tailwind.config.js": true
+  }
+}
