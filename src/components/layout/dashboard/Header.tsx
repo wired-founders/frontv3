@@ -5,7 +5,7 @@ import { PasswordResetModal } from "@/components/modals/PasswordResetModal";
 import { useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
-import { Menu, Moon, Sun, LogOut, Settings, User } from "lucide-react";
+import { Moon, Sun, LogOut, Settings, User } from "lucide-react";
 import { logOut } from "@/lib/api/auth";
 import { Button } from "@/components/ui/button";
 import {
@@ -24,6 +24,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { useUserStore } from "@/providers/UserStoreProvider";
+import Image from "next/image";
 
 type HeaderProps = {
   onLogout?: () => Promise<void> | void; // optional hook to wire your own sign-out
@@ -34,7 +35,7 @@ export default function Header({ onLogout }: HeaderProps) {
 
   const email = useUserStore((s) => s.user?.email ?? null);
   const userName = useUserStore((s) => s.user?.name ?? null);
-  const imageUrl = useUserStore((s) => s.user?.image ?? null);
+  const imageUrl = useUserStore((s) => s.user?.image || undefined);
   const { theme, setTheme } = useTheme();
 
   const initials = useMemo(() => {
@@ -68,9 +69,12 @@ export default function Header({ onLogout }: HeaderProps) {
       <div className="mx-auto flex h-14 max-w-screen-2xl items-center justify-between px-3 sm:px-6">
         {/* Left: Logo */}
         <div className="flex items-center gap-2">
-          <img
-            src="/kordor-logo.svg" // or /logo.png — whatever’s in /public
+          <Image
+            src="/kordor-logo.svg"
             alt="App logo"
+            width={32}
+            height={32}
+            priority
             className="h-8 w-auto"
           />
         </div>

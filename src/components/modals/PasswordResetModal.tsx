@@ -42,8 +42,8 @@ export function PasswordResetModal() {
 
       setMessage("Password reset email sent. Check your inbox.");
       setTimeout(() => setOpen(false), 2000);
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "An error occurred");
     } finally {
       setLoading(false);
     }

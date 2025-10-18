@@ -1,9 +1,10 @@
 // src\stores\userStore.ts
 import { createStore } from 'zustand/vanilla';
 
-type User = {
+export type User = {
   email: string;
   name?: string;
+  image?:string;
 };
 
 type UserStore = {

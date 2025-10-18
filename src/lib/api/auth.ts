@@ -21,8 +21,9 @@ export async function signUp(data: {
 
     const result = await res.json();
     return result;
-  } catch (err: any) {
-    throw new Error(err.message || "Signup failed");
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "Signup failed";
+    throw new Error(message);
   }
 }
 
@@ -41,15 +42,34 @@ export async function signIn(data: { email: string; password: string }) {
     const result = await res.json();
 
     return result;
-  } catch (err: any) {
-    throw new Error(err.message || "Signup failed");
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "Signup failed";
+    throw new Error(message);
   }
 }
 
 export async function logOut() {
-  const res = fetch(`${apiUrl}/auth/logout`, {
+  const res = await fetch(`${apiUrl}/auth/logout`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     credentials: "include",
   });
+
+  if (!res.ok) throw new Error("Logout failed");
 }
+
+// lib/api/auth.ts
+export const resetPassword = async (password: string) => {
+  const res = await fetch(`${apiUrl}/auth/password-reset/confirm`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+    body: JSON.stringify({ password }),
+  });
+
+  const data = await res.json();
+
+  if (!res.ok) throw new Error(data.message || "Password reset failed");
+
+  return data;
+};
