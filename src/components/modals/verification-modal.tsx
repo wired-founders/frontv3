@@ -1,4 +1,4 @@
-// src/components/modals/verification-modal.tsx
+// src\components\modals\verification-modal.tsx
 "use client";
 
 import {
@@ -15,11 +15,12 @@ import Link from "next/link";
 interface VerificationModalProps {
   open: boolean;
   email: string;
+  onClose: () => void;
 }
 
-export function VerificationModal({ open, email }: VerificationModalProps) {
+export function VerificationModal({ open, email, onClose }: VerificationModalProps) {
   return (
-    <Dialog open={open}>
+    <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader className="text-center space-y-3">
           <div className="mx-auto w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
@@ -35,8 +36,8 @@ export function VerificationModal({ open, email }: VerificationModalProps) {
           <p className="text-sm text-muted-foreground text-center">
             Click the link in the email to verify your account. Then you can log in.
           </p>
-          
-          <Button asChild className="w-full">
+
+          <Button asChild className="w-full" onClick={onClose}>
             <Link href="/login">Go to Login</Link>
           </Button>
         </div>

@@ -2,7 +2,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { apiUrl } from "@/config/index";
+import { apiUrl } from "@/config/env.client";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -19,6 +19,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { z } from "zod";
 import { VerificationModal } from "@/components/modals/verification-modal";
+import { signUp } from "@/lib/api/auth";
 
 const signupSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -43,25 +44,13 @@ export function SignupForm({
   } = useForm<SignupData>({
     resolver: zodResolver(signupSchema),
   });
-
+  //submit api
   const onSubmit = async (data: SignupData) => {
     try {
-      const res = await fetch(`${apiUrl}/auth/signup-email`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify(data),
-      });
+      const result = await signUp(data);
+      console.log(result);
 
-      if (!res.ok) {
-        const errorData = await res.json().catch(() => ({}));
-        throw new Error(errorData.message || `Signup failed (${res.status})`);
-      }
-
-      const result = await res.json();
-      console.log(result)
-
-      if (result.requiresVerification) {
+      if (!result.verified) {
         setUserEmail(data.email);
         setShowVerification(true);
       }
@@ -88,7 +77,7 @@ export function SignupForm({
           <form noValidate onSubmit={handleSubmit(onSubmit)}>
             <div className="grid gap-4">
               {/* Google OAuth */}
-              
+
               <Button
                 type="button"
                 variant="outline"
@@ -177,13 +166,20 @@ export function SignupForm({
 
               <div className="mt-3 text-center text-xs text-balance text-muted-foreground">
                 By creating an account, you agree to our{" "}
-                <a href="/terms" className="underline underline-offset-4 hover:text-primary">
+                <a
+                  href="/terms"
+                  className="underline underline-offset-4 hover:text-primary"
+                >
                   Terms of Service
                 </a>{" "}
                 and{" "}
-                <a href="/privacy" className="underline underline-offset-4 hover:text-primary">
+                <a
+                  href="/privacy"
+                  className="underline underline-offset-4 hover:text-primary"
+                >
                   Privacy Policy
-                </a>.
+                </a>
+                .
               </div>
 
               {/* Login Link */}
@@ -201,7 +197,11 @@ export function SignupForm({
         </CardContent>
       </Card>
 
-      <VerificationModal open={showVerification} email={userEmail} />
+      <VerificationModal
+        open={showVerification}
+        email={userEmail}
+        onClose={() => setShowVerification(false)}
+      />
     </>
   );
 }

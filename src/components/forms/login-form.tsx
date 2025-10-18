@@ -2,7 +2,8 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { apiUrl } from "@/config/index";
+import { apiUrl } from "@/config/env.client";
+import { signIn } from "@/lib/api/auth";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -43,27 +44,17 @@ export function LoginForm({
 
   const onSubmit = async (data: LoginData) => {
     try {
-      const res = await fetch(`${apiUrl}/auth/login-email`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify(data),
-      });
-
-      if (!res.ok) {
-        const errorData = await res.json().catch(() => ({}));
-        throw new Error(errorData.message || "Login failed");
-      }
-
+      await signIn(data);
       router.push("/home");
     } catch (err) {
       setError("root", { message: (err as Error).message });
     }
   };
 
-  function handleGoogleLogin() {
-    window.location.href = `${apiUrl}/auth/google`;
-  }
+function handleGoogleLogin() {
+  // Redirect user to backend OAuth endpoint (same tab)
+  window.open(`${apiUrl}/auth/google/login`, "_self");
+}
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
