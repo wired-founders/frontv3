@@ -1,10 +1,19 @@
-// src/app/(auth)/reset-password/ResetPasswordClient.tsx
+// src\app\(public)\reset-password\ResetPasswordClient.tsx
 "use client";
 
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { resetPassword } from "@/lib/api/auth";
-import { Button, Input, Label, Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui";
+import { resetPassword } from "@/lib/api/authApi";
+import {
+  Button,
+  Input,
+  Label,
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui";
 
 export default function ResetPasswordClient() {
   const router = useRouter();
@@ -21,7 +30,8 @@ export default function ResetPasswordClient() {
     setError("");
 
     if (password !== confirmPassword) return setError("Passwords do not match");
-    if (password.length < 6) return setError("Password must be at least 6 characters");
+    if (password.length < 6)
+      return setError("Password must be at least 6 characters");
 
     setLoading(true);
     try {

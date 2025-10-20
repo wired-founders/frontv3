@@ -7,8 +7,8 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
+  Button,
+} from "@/components/ui";
 import { Mail } from "lucide-react";
 import Link from "next/link";
 
@@ -18,7 +18,11 @@ interface VerificationModalProps {
   onClose: () => void;
 }
 
-export function VerificationModal({ open, email, onClose }: VerificationModalProps) {
+export function VerificationModal({
+  open,
+  email,
+  onClose,
+}: VerificationModalProps) {
   return (
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-md">
@@ -28,13 +32,15 @@ export function VerificationModal({ open, email, onClose }: VerificationModalPro
           </div>
           <DialogTitle className="text-xl">Check your email</DialogTitle>
           <DialogDescription className="text-base">
-            We sent a verification link to <strong className="text-foreground">{email}</strong>
+            We sent a verification link to{" "}
+            <strong className="text-foreground">{email}</strong>
           </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4 pt-2">
           <p className="text-sm text-muted-foreground text-center">
-            Click the link in the email to verify your account. Then you can log in.
+            Click the link in the email to verify your account. Then you can log
+            in.
           </p>
 
           <Button asChild className="w-full" onClick={onClose}>

@@ -3,17 +3,17 @@
 
 import { cn } from "@/lib/utils";
 import { apiUrl } from "@/config/env.client";
-import { signIn } from "@/lib/api/auth";
-import { Button } from "@/components/ui/button";
+import { signIn } from "@/lib/api/authApi";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+  Input,
+  Label,Button
+} from "@/components/ui";
+
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -51,10 +51,10 @@ export function LoginForm({
     }
   };
 
-function handleGoogleLogin() {
-  // Redirect user to backend OAuth endpoint (same tab)
-  window.open(`${apiUrl}/auth/google/login`, "_self");
-}
+  function handleGoogleLogin() {
+    // Redirect user to backend OAuth endpoint (same tab)
+    window.open(`${apiUrl}/auth/google/login`, "_self");
+  }
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>

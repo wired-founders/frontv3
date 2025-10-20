@@ -1,4 +1,4 @@
-// src/app/(auth)/reset-password/page.tsx
+// src\app\(public)\reset-password\page.tsx
 import { Suspense } from "react";
 import ResetPasswordClient from "./ResetPasswordClient";
 

@@ -19,7 +19,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { z } from "zod";
 import { VerificationModal } from "@/components/modals/verification-modal";
-import { signUp } from "@/lib/api/auth";
+import { signUp } from "@/lib/api/authApi";
 
 const signupSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -44,7 +44,7 @@ export function SignupForm({
   } = useForm<SignupData>({
     resolver: zodResolver(signupSchema),
   });
-  //submit api
+  
   const onSubmit = async (data: SignupData) => {
     try {
       const result = await signUp(data);

@@ -1,4 +1,4 @@
-// src/components/layout/dashboard/Sidebar.tsx
+// src\components\layout\dashboard\Sidebar.tsx
 "use client";
 
 import { useState } from "react";
@@ -13,7 +13,9 @@ export default function Sidebar() {
 
   const links = [
     { id: "dashboard" as const, icon: Home, label: "Dashboard" },
+    { id: "company" as const, icon: Users, label: "Company" },
     { id: "users" as const, icon: Users, label: "Users" },
+    { id: "channels" as const, icon: Users, label: "Channels" },
     { id: "settings" as const, icon: Settings, label: "Settings" },
   ];
 

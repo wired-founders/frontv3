@@ -1,7 +1,20 @@
 // src\app\(dashboard)\layout.tsx
-import { cookies } from "next/headers";
+
+/**
+ * Handles authentication checks and redirects before rendering dashboard.
+ *
+ * Redirect flow:
+ * - 401 (No session) → /login
+ * - 403 (Unverified email) → /verify-email
+ * - No workspace → /onboard
+ *
+ * @todo Add loading state during session check
+ * @todo Add error boundary for failed redirects
+ * @todo Cache workspace data to reduce API calls
+ */
+
 import { redirect } from "next/navigation";
-import { apiUrl } from "@/config/env.client";
+import { checkSession } from "@/lib/api/serverAuthApi";
 import Header from "@/components/layout/dashboard/Header";
 import { UserStoreProvider } from "@/providers/UserStoreProvider";
 
@@ -10,19 +23,15 @@ export default async function AuthLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const cookieStore = await cookies();
-  const res = await fetch(`${apiUrl}/auth/validate`, {
-    headers: { Cookie: cookieStore.toString() },
-    cache: "no-store",
-  });
+  const result = await checkSession();
+  console.log(result)
 
-  if (res.status === 401) redirect("/login");
-  if (res.status === 403) redirect("/verify-email");
-
-  const userData = res.ok ? await res.json() : null;
+  if (result.status === 401) redirect("/login");
+  if (result.status === 403) redirect("/verify-email");
+  if (!result.workspace) redirect("/onboard");
 
   return (
-    <UserStoreProvider initialUser={userData?.user}>
+    <UserStoreProvider initialUser={result.user}>
       <Header />
       <main>{children}</main>
     </UserStoreProvider>

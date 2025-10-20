@@ -7,7 +7,5 @@ function requireEnv(key: string): string {
 
 // safe to throw here — server code runs in Node, not the browser
 export const env = {
-  API_ORIGIN: requireEnv("API_ORIGIN"),
-  DATABASE_URL: requireEnv("DATABASE_URL"),
-  SUPABASE_SERVICE_ROLE_KEY: requireEnv("SUPABASE_SERVICE_ROLE_KEY"),
+  API_URL: requireEnv("API_URL"),
 };

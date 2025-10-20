@@ -1,13 +1,12 @@
 // src\components\layout\dashboard\Header.tsx
 "use client";
-import { PasswordResetModal } from "@/components/modals/PasswordResetModal";
 
+import { PasswordResetModal } from "@/components/modals/PasswordResetModal";
 import { useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
 import { Moon, Sun, LogOut, Settings, User } from "lucide-react";
-import { logOut } from "@/lib/api/auth";
-import { Button } from "@/components/ui/button";
+import { logOut } from "@/lib/api/authApi";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -21,8 +20,11 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuPortal,
   DropdownMenuSubContent,
-} from "@/components/ui/dropdown-menu";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+  Button,
+  Avatar,
+  AvatarImage,
+  AvatarFallback,
+} from "@/components/ui";
 import { useUserStore } from "@/providers/UserStoreProvider";
 import Image from "next/image";
 
@@ -50,17 +52,15 @@ export default function Header({ onLogout }: HeaderProps) {
   const handleLogout = async () => {
     try {
       if (onLogout) {
-        await onLogout(); // custom logout handler, if passed
+        await onLogout();
       } else {
-        // Use your backend logout function
         await logOut();
       }
     } catch (err) {
       console.error("Logout failed:", err);
     } finally {
-      // Always redirect to /login
       router.push("/login");
-      router.refresh(); // ensures new session state
+      router.refresh();
     }
   };
 
@@ -82,14 +82,17 @@ export default function Header({ onLogout }: HeaderProps) {
         {/* Right: Avatar dropdown */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-9 gap-2 px-2">
-              <Avatar className="h-7 w-7">
-                <AvatarImage src={imageUrl} alt={userName ?? email ?? "User"} />
-                <AvatarFallback className="text-xs">{initials}</AvatarFallback>
-              </Avatar>
-              <span className="hidden text-sm font-medium sm:inline">
-                {userName ?? email ?? "User"}
-              </span>
+            <Button variant="ghost" className="h-9 px-2">
+              <div className="rounded-full bg-blue-600 p-[2px]">
+                {" "}
+                {/* change color here */}
+                <Avatar className="h-7 w-7">
+                  <AvatarImage src={imageUrl} alt="User avatar" />
+                  <AvatarFallback className="text-xs text-white bg-blue-600">
+                    {initials}
+                  </AvatarFallback>
+                </Avatar>
+              </div>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-60">
