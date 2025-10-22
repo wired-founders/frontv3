@@ -1,7 +1,7 @@
 // src\lib\api\onboardApi.ts
 import { apiUrl } from "@/config/env.client";
-
-export async function createWorkspace(data: { name: string }) {
+import {newWorkspaceInput } from '@/types/onboard_types'
+export async function createWorkspace(data: newWorkspaceInput) {
   try {
     const res = await fetch(`${apiUrl}/onboard`, {
       method: "POST",
@@ -39,4 +39,29 @@ export async function createCompany(data: CompanyData) {
 
   if (!res.ok) throw new Error("Failed to create company");
   return res.json();
+}
+
+
+export async function getCompany(): Promise<CompanyData> {
+  const response = await fetch(`${apiUrl}/api/company`, {
+    credentials: 'include'
+  });
+  if (!response.ok) throw new Error('Failed to fetch company');
+  return response.json();
+}
+
+export async function getChannels() {
+  const response = await fetch(`${apiUrl}/api/channels`, {
+    credentials: 'include'
+  });
+  if (!response.ok) throw new Error('Failed to fetch channels');
+  return response.json();
+}
+export async function getAssets(accountIds: string[]) {
+  const response = await fetch(
+    `${apiUrl}/api/assets?accountIds=${accountIds.join(",")}`,
+    { credentials: "include" }
+  );
+  if (!response.ok) throw new Error("Failed to fetch assets");
+  return response.json();
 }

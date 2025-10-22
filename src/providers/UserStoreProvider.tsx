@@ -3,21 +3,38 @@
 
 import { createContext, useContext, useRef } from "react";
 import { useStore } from "zustand";
-import { createUserStore, type UserStoreType, type User } from "@/stores/userStore";
+import {
+  createUserStore,
+  type UserStoreType,
+  type User,
+  type Workspace,
+  type Company,type SocialAccount 
+} from "@/stores/userStore";
 
 const UserStoreContext = createContext<UserStoreType | null>(null);
 
-export function UserStoreProvider({ 
-  children, 
-  initialUser 
-}: { 
+export function UserStoreProvider({
+  children,
+  initialUser,
+  initialWorkspace,
+  initialCompany,
+  initialSocialAccounts,
+}: {
   children: React.ReactNode;
   initialUser: User | null;
+  initialWorkspace: Workspace | null;
+  initialCompany: Company | null;
+  initialSocialAccounts: SocialAccount[];
 }) {
   const storeRef = useRef<UserStoreType | undefined>(undefined);
-  
+
   if (!storeRef.current) {
-    storeRef.current = createUserStore(initialUser);
+    storeRef.current = createUserStore(
+      initialUser,
+      initialWorkspace,
+      initialCompany,
+      initialSocialAccounts,
+    );
   }
 
   return (
@@ -27,7 +44,9 @@ export function UserStoreProvider({
   );
 }
 
-export function useUserStore<T>(selector: (state: ReturnType<UserStoreType['getState']>) => T) {
+export function useUserStore<T>(
+  selector: (state: ReturnType<UserStoreType["getState"]>) => T
+) {
   const store = useContext(UserStoreContext);
   if (!store) throw new Error("Missing UserStoreProvider");
   return useStore(store, selector);

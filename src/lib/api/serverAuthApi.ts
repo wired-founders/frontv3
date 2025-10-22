@@ -8,8 +8,14 @@
 
 import { cookies } from "next/headers";
 import { env } from "@/config/env.server";
+import { type User, type Workspace, type Company, type SocialAccount } from "@/stores/userStore";
 
-export async function checkSession() {
+type SessionResult =
+  | { ok: false; status: 401 | 403 | number }
+  | { ok: true; user: User; workspace: Workspace; company: Company;socialAccounts: SocialAccount[]  };
+
+
+export async function checkSession(): Promise<SessionResult> {
   const cookieStore = await cookies();
 
   const res = await fetch(`${env.API_URL}/auth/validate`, {

@@ -24,14 +24,22 @@ export default async function AuthLayout({
   children: React.ReactNode;
 }) {
   const result = await checkSession();
-  console.log(result)
+  console.log(result);
 
-  if (result.status === 401) redirect("/login");
-  if (result.status === 403) redirect("/verify-email");
+  if (!result.ok) {
+    if (result.status === 401) redirect("/login");
+    if (result.status === 403) redirect("/verify-email");
+    redirect("/login");
+  }
   if (!result.workspace) redirect("/onboard");
 
   return (
-    <UserStoreProvider initialUser={result.user}>
+    <UserStoreProvider
+      initialUser={result.user}
+      initialWorkspace={result.workspace}
+      initialCompany={result.company}
+      initialSocialAccounts={result.socialAccounts}
+    >
       <Header />
       <main>{children}</main>
     </UserStoreProvider>

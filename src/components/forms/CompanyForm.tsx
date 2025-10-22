@@ -6,14 +6,21 @@ import { CompanyData } from "@/lib/api/onboardApi";
 
 type CompanyFormProps = {
   onSubmit: (data: CompanyData) => Promise<void>;
+  defaultValues?: CompanyData;
 };
 
-export default function CompanyForm({ onSubmit }: CompanyFormProps) {
+export default function CompanyForm({
+  onSubmit,
+  defaultValues,
+}: CompanyFormProps) {
   const {
     register,
     handleSubmit,
+
     formState: { errors, isSubmitting },
-  } = useForm<CompanyData>();
+  } = useForm<CompanyData>({
+    defaultValues,
+  });
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="max-w-2xl space-y-4">

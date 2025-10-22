@@ -1,68 +1,64 @@
-// src\app\(dashboard)\home\pages\ChannelsPage.tsx
+// src/app/(dashboard)/home/pages/ChannelsPage.tsx
 "use client";
 
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardContent,
-  Button,
-} from "@/components/ui";
+import { ConnectChannelsModal } from "@/components/modals/ConnectChannelsModal";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui";
 import { Facebook, Instagram, Linkedin, Music2, Globe } from "lucide-react";
-import { apiUrl } from "@/config/env.client";
+import { useUserStore } from "@/providers/UserStoreProvider";
+import { useAssets } from "@/hooks/useHome";
 
-
-const platformSlug: Record<string, string> = {
-  Facebook: "facebook",
-  Instagram: "instagram",
-  TikTok: "tiktok",
-  LinkedIn: "linkedin",
-  Website: "website",
+const platformIcons: Record<string, any> = {
+  facebook: Facebook,
+  instagram: Instagram,
+  tiktok: Music2,
+  linkedin: Linkedin,
+  website: Globe,
 };
 
 export default function ChannelsPage() {
-  const platforms = [
-    { name: "Facebook", icon: Facebook },
-    { name: "Instagram", icon: Instagram },
-    { name: "TikTok", icon: Music2 },
-    { name: "LinkedIn", icon: Linkedin },
-    { name: "Website", icon: Globe },
-  ];
+  const socialAccounts = useUserStore((s) => s.socialAccounts);
+  const { data, isLoading } = useAssets();
+  const assets = data?.assets || [];
 
-  const handleConnect = (name: string) => {
-    const slug = platformSlug[name];
-    if (!apiUrl) {
-      console.error("Missing NEXT_PUBLIC_API_ORIGIN");
-      return;
-    }
-    if (!slug) {
-      console.error(`No slug for platform: ${name}`);
-      return;
-    }
-    // Full-page redirect to your Express route: GET /connect/:provider
-    window.location.assign(`${apiUrl}/connect/${slug}`);
-  };
+  if (isLoading) return <div className="p-6">Loading...</div>;
 
   return (
-    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 p-6">
-      {platforms.map(({ name, icon: Icon }) => (
-        <Card
-          key={name}
-          className="flex flex-col items-center justify-center text-center"
-        >
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2 justify-center">
-              <Icon className="w-5 h-5" />
-              {name}
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <Button className="mt-2" onClick={() => handleConnect(name)}>
-              Connect {name}
-            </Button>
-          </CardContent>
-        </Card>
-      ))}
+    <div className="p-6 space-y-6">
+      <div className="flex justify-between items-center">
+        <h1 className="text-2xl font-bold">Connected Channels</h1>
+        <ConnectChannelsModal />
+      </div>
+
+      {socialAccounts.length === 0 ? (
+        <p className="text-gray-500">No channels connected yet</p>
+      ) : (
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {socialAccounts.map((account) => {
+            const Icon = platformIcons[account.platform] || Globe;
+            const accountAssets = assets.filter(
+              (asset: any) => asset.accountId === account.id
+            );
+
+            return (
+              <Card key={account.id}>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Icon className="w-5 h-5" />
+                    {account.accountName || account.platform}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  {accountAssets.length > 0 && (
+                    <p className="text-xs text-gray-400">
+                      {accountAssets.length} assets
+                    </p>
+                  )}
+                </CardContent>
+              </Card>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }

@@ -2,7 +2,7 @@
   "files.exclude": {
     "**/.next": true,
     "**/node_modules": true,
-    "**/public": false,
+    "**/public": true,
 
     // Config clutter
     "**/eslint.config.*": true,
@@ -14,12 +14,16 @@
     "**/components.json*": true,
 
     // lockfiles & docs
-    "**/package.json": false,
+    "**/package.json": true,
     "**/pnpm-lock.yaml": true,
-    "**/tsconfig.json": false,
+    "**/tsconfig.json": true,
     "**/.gitignore": true,
     "**/tests": false,
 
-    "**/README.md": true
+    "**/.env": false,
+    "**/.env.local": true,
+    "**/.env.prod": true,
+
+    "**/README.md": false
   }
 }
