@@ -1,7 +1,9 @@
 // src\hooks\useHome.ts
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { getCompany, createCompany, CompanyData, getAssets } from "@/lib/api/onboardApi";
+import { createCompany } from "@/lib/api/onboardApi";
+import { getCompany, getAssets } from "@/lib/api/fetchApi";
 import { useUserStore } from "@/providers/UserStoreProvider";
+import { CompanyData } from "@/types/onboard_types";
 
 // Company queries
 export function useCompany() {
@@ -17,7 +19,7 @@ export function useCompany() {
 
 export function useCreateCompany() {
   const queryClient = useQueryClient();
-  
+
   return useMutation<any, Error, CompanyData>({
     mutationFn: createCompany,
     onSuccess: () => {
@@ -34,9 +36,11 @@ export function useAssets() {
     queryKey: ["assets", accountIds],
     queryFn: () => getAssets(accountIds),
     enabled: accountIds.length > 0,
+    staleTime: 5 * 60 * 1000,        // Data fresh for 5 minutes
+    gcTime: 10 * 60 * 1000,          // Cache for 10 minutes
+    refetchOnWindowFocus: false,     // Don't refetch on tab switch
   });
 }
-
 // Add more home module queries here
 // export function useWorkspace() { ... }
 // export function useTeam() { ... }

@@ -3,7 +3,7 @@
 //export * from "./alert-dialog";
 export * from "./avatar";
 export * from "./label";
-
+export * from "./textarea";
 //export * from "./badge";
 export * from "./button";
 export * from "./card";

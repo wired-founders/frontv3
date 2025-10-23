@@ -2,8 +2,16 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronLeft, ChevronRight, Home, Settings, Users } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import {
+  ChevronLeft,
+  ChevronRight,
+  LayoutDashboard,
+  Building2,
+  UserCircle2,
+  Share2,
+  Package,
+  Settings,
+} from "lucide-react";import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useNavigationStore } from "@/stores/navStore";
 
@@ -12,10 +20,11 @@ export default function Sidebar() {
   const { activePage, setActivePage } = useNavigationStore();
 
   const links = [
-    { id: "dashboard" as const, icon: Home, label: "Dashboard" },
-    { id: "company" as const, icon: Users, label: "Company" },
-    { id: "users" as const, icon: Users, label: "Users" },
-    { id: "channels" as const, icon: Users, label: "Channels" },
+    { id: "dashboard" as const, icon: LayoutDashboard, label: "Dashboard" },
+    { id: "company" as const, icon: Building2, label: "Company" },
+    { id: "users" as const, icon: UserCircle2, label: "Users" },
+    { id: "channels" as const, icon: Share2, label: "Channels" },
+    { id: "items" as const, icon: Package, label: "Items" },
     { id: "settings" as const, icon: Settings, label: "Settings" },
   ];
 

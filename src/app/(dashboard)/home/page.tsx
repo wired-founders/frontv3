@@ -4,16 +4,13 @@
 import { useNavigationStore } from "@/stores/navStore";
 import { useUserStore } from "@/providers/UserStoreProvider";
 
-import DashboardPage from "./pages/Dashboard";
-import UsersPage from "./pages/Users";
-import SettingsPage from "./pages/Settings";
-import CompanyPage from "./pages/Company";
-import ChannelsPage from "./pages/ChannelsPage";
+import {DashboardPage, UsersPage, SettingsPage,CompanyPage, ChannelsPage, ItemsPage} from "./pages";
+
 
 export default function HomePage() {
   const activePage = useNavigationStore((s) => s.activePage);
   const companyId = useUserStore((s) => s.company?.id);
-  console.log('company id in page', companyId)
+  console.log("company id in page", companyId);
   if (!companyId) {
     return <CompanyPage />;
   }
@@ -26,6 +23,8 @@ export default function HomePage() {
       return <CompanyPage />;
     case "channels":
       return <ChannelsPage />;
+    case "items":
+      return <ItemsPage />;
     case "dashboard":
     default:
       return <DashboardPage />;

@@ -47,13 +47,20 @@ export default function ChannelsPage() {
                     {account.accountName || account.platform}
                   </CardTitle>
                 </CardHeader>
-                <CardContent>
-                  {accountAssets.length > 0 && (
-                    <p className="text-xs text-gray-400">
-                      {accountAssets.length} assets
-                    </p>
-                  )}
-                </CardContent>
+               <CardContent>
+  {accountAssets.length > 0 ? (
+    <div className="space-y-2">
+      {accountAssets.map((asset: any) => (
+        <div key={asset.id} className="text-sm border-l-2 pl-2 border-gray-200">
+          <p className="font-medium">{asset.name}</p>
+          <p className="text-xs text-gray-500">{asset.assetType}</p>
+        </div>
+      ))}
+    </div>
+  ) : (
+    <p className="text-xs text-gray-400">No assets</p>
+  )}
+</CardContent>
               </Card>
             );
           })}

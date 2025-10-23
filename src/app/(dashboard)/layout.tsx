@@ -24,7 +24,7 @@ export default async function AuthLayout({
   children: React.ReactNode;
 }) {
   const result = await checkSession();
-  console.log(result);
+  //console.log(result);
 
   if (!result.ok) {
     if (result.status === 401) redirect("/login");
