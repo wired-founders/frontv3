@@ -8,7 +8,8 @@ import {
   type UserStoreType,
   type User,
   type Workspace,
-  type Company,type SocialAccount 
+  type Company,
+  type SocialAccount,
 } from "@/stores/userStore";
 
 const UserStoreContext = createContext<UserStoreType | null>(null);
@@ -29,24 +30,13 @@ export function UserStoreProvider({
   const storeRef = useRef<UserStoreType | undefined>(undefined);
 
   if (!storeRef.current) {
-    storeRef.current = createUserStore(
-      initialUser,
-      initialWorkspace,
-      initialCompany,
-      initialSocialAccounts,
-    );
+    storeRef.current = createUserStore(initialUser, initialWorkspace, initialCompany, initialSocialAccounts);
   }
 
-  return (
-    <UserStoreContext.Provider value={storeRef.current}>
-      {children}
-    </UserStoreContext.Provider>
-  );
+  return <UserStoreContext.Provider value={storeRef.current}>{children}</UserStoreContext.Provider>;
 }
 
-export function useUserStore<T>(
-  selector: (state: ReturnType<UserStoreType["getState"]>) => T
-) {
+export function useUserStore<T>(selector: (state: ReturnType<UserStoreType["getState"]>) => T) {
   const store = useContext(UserStoreContext);
   if (!store) throw new Error("Missing UserStoreProvider");
   return useStore(store, selector);

@@ -1,10 +1,11 @@
 // src\lib\api\onboardApi.ts
 import { apiUrl } from "@/config/env.client";
-import {newWorkspaceInput,CompanyData } from '@/types/onboard_types'
+import { WorkspaceInput, CompanyInput } from "@/types/onboard_types";
+import { Company } from "@/stores/userStore";
 
-export async function createWorkspace(data: newWorkspaceInput) {
+export async function createWorkspace(data: WorkspaceInput) {
   try {
-    const res = await fetch(`${apiUrl}/onboard`, {
+    const res = await fetch(`${apiUrl}/onboard/workspace`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
@@ -17,6 +18,7 @@ export async function createWorkspace(data: newWorkspaceInput) {
     }
 
     const result = await res.json();
+
     return result;
   } catch (err) {
     const message = err instanceof Error ? err.message : "Creation failed";
@@ -24,8 +26,7 @@ export async function createWorkspace(data: newWorkspaceInput) {
   }
 }
 
-
-export async function createCompany(data: CompanyData) {
+export async function createCompany(data: CompanyInput): Promise<Company> {
   const res = await fetch(`${apiUrl}/onboard/company`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -34,12 +35,13 @@ export async function createCompany(data: CompanyData) {
   });
 
   if (!res.ok) throw new Error("Failed to create company");
-  return res.json();
+  const { company } = await res.json();
+  //console.log("company api", company);
+  return company;
 }
 
-
 export async function createItem(data: any) {
-  const res = await fetch(`${apiUrl}/onboard/items`, {
+  const res = await fetch(`${apiUrl}/onboard/item`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     credentials: "include",
@@ -47,5 +49,6 @@ export async function createItem(data: any) {
   });
 
   if (!res.ok) throw new Error("Failed to create item");
-  return res.json();
+  const { item } = await res.json();
+  return item;
 }

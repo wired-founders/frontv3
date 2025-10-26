@@ -1,139 +1,99 @@
 // src\app\(dashboard)\home\pages\Items.tsx
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { createItem } from "@/lib/api/onboardApi";
-
-import {
-  Input,
-  Button,
-  Label,
-  Textarea,
-  Card,
-  CardHeader,
-  CardTitle,
-  CardContent,
-} from "@/components/ui";
-import { Item } from "@/types/onboard_types";
+import { getItems } from "@/lib/api/fetchApi";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui";
+import { Item, ItemInput } from "@/types/onboard_types";
+import ItemsModal from "@/components/modals/ItemsModal";
 
 export default function ItemsPage() {
   const [items, setItems] = useState<Item[]>([]);
-  const [form, setForm] = useState<Omit<Item, "id">>({
-    name: "",
-    type: "Product",
-    price: "",
-    category: "",
-    description: "",
-  });
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [open, setOpen] = useState(false);
+  const [formKey, setFormKey] = useState(0); // force-reset form on close
 
-  const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
-  ) => setForm({ ...form, [e.target.name]: e.target.value });
+  useEffect(() => {
+    const controller = new AbortController();
+    (async () => {
+      try {
+        setError(null);
+        setLoading(true);
+        const data = await getItems({ signal: controller.signal });
+        setItems(Array.isArray(data) ? data : []);
+      } catch (err) {
+        if ((err as any)?.name !== "AbortError") {
+          const msg = err instanceof Error ? err.message : "Failed to load items";
+          setError(msg);
+          console.error(err);
+        }
+      } finally {
+        setLoading(false);
+      }
+    })();
+    return () => controller.abort();
+  }, []);
 
-const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-  try {
-    const newItem = await createItem(form);
-    setItems([...items, newItem]);
-    setForm({
-      name: "",
-      type: "Product",
-      price: "",
-      category: "",
-      description: "",
-    });
-  } catch (err) {
-    console.error(err);
-  }
-};
-
+  const handleCreate = async (values: ItemInput) => {
+    setError(null);
+    setSubmitting(true);
+    try {
+      const newItem = await createItem(values);
+      setItems((prev) => {
+        const byId = new Map(prev.map((i) => [i.id, i]));
+        byId.set(newItem.id, newItem);
+        return Array.from(byId.values());
+      });
+      // close and reset form for next open
+      setOpen(false);
+      setFormKey((k) => k + 1);
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "Failed to create item";
+      setError(msg);
+      console.error(err);
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <div>
-      <h1 className="text-3xl font-bold">Items</h1>
-      <p className="mt-4 text-muted-foreground">
-        Add your company’s products or services for digital campaigns.
-      </p>
-
-      <form onSubmit={handleSubmit} className="mt-6 grid gap-4 md:grid-cols-2">
+      <div className="flex items-center justify-between">
         <div>
-          <Label htmlFor="name">Item Name</Label>
-          <Input
-            id="name"
-            name="name"
-            value={form.name}
-            onChange={handleChange}
-            required
-          />
+          <h1 className="text-3xl font-bold">Items</h1>
+          <p className="mt-2 text-muted-foreground">Add your products or services for campaigns.</p>
         </div>
-        <div>
-          <Label htmlFor="type">Type</Label>
-          <select
-            id="type"
-            name="type"
-            value={form.type}
-            onChange={handleChange}
-            className="w-full border rounded-md p-2"
-          >
-            <option>Product</option>
-            <option>Service</option>
-          </select>
-        </div>
-        <div>
-          <Label htmlFor="price">Price (optional)</Label>
-          <Input
-            id="price"
-            name="price"
-            value={form.price}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <Label htmlFor="category">Category</Label>
-          <Input
-            id="category"
-            name="category"
-            placeholder="e.g., SaaS, Branding, Design"
-            value={form.category}
-            onChange={handleChange}
-          />
-        </div>
-        <div className="md:col-span-2">
-          <Label htmlFor="description">Short Description</Label>
-          <Textarea
-            id="description"
-            name="description"
-            placeholder="Describe the product or service briefly..."
-            value={form.description}
-            onChange={handleChange}
-          />
-        </div>
-        <div className="md:col-span-2">
-          <Button type="submit" className="w-full">
-            Add Item
-          </Button>
-        </div>
-      </form>
-
-      <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {items.map((item) => (
-          <Card key={item.id}>
-            <CardHeader>
-              <CardTitle>{item.name}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-muted-foreground">{item.type}</p>
-              <p className="mt-2 font-semibold">{item.category}</p>
-              {item.price && (
-                <p className="text-sm mt-1">Price: {item.price}</p>
-              )}
-              <p className="mt-2 text-sm">{item.description}</p>
-            </CardContent>
-          </Card>
-        ))}
+        <ItemsModal onCreate={handleCreate} submitting={submitting} error={error} />
       </div>
+
+      {loading ? (
+        <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {[...Array(6)].map((_, i) => (
+            <div key={i} className="h-40 animate-pulse rounded-xl bg-muted" />
+          ))}
+        </div>
+      ) : items.length === 0 ? (
+        <p className="mt-8 text-sm text-muted-foreground">No items yet.</p>
+      ) : (
+        <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {items.map((item) => (
+            <Card key={item.id}>
+              <CardHeader>
+                <CardTitle>{item.name}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground capitalize">{item.type}</p>
+                {item.category && <p className="mt-2 font-semibold">{item.category}</p>}
+                {item.price && <p className="text-sm mt-1">Price: {item.price}</p>}
+                {item.description && <p className="mt-2 text-sm">{item.description}</p>}
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

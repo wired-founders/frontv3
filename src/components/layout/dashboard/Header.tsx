@@ -1,9 +1,8 @@
-// src\components\layout\dashboard\Header.tsx
 "use client";
 
 import { PasswordResetModal } from "@/components/modals/PasswordResetModal";
 import { useMemo } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useTheme } from "next-themes";
 import { Moon, Sun, LogOut, Settings, User } from "lucide-react";
 import { logOut } from "@/lib/api/authApi";
@@ -27,13 +26,15 @@ import {
 } from "@/components/ui";
 import { useUserStore } from "@/providers/UserStoreProvider";
 import Image from "next/image";
+import Link from "next/link";
 
 type HeaderProps = {
-  onLogout?: () => Promise<void> | void; // optional hook to wire your own sign-out
+  onLogout?: () => Promise<void> | void;
 };
 
 export default function Header({ onLogout }: HeaderProps) {
   const router = useRouter();
+  const pathname = usePathname();
 
   const email = useUserStore((s) => s.user?.email ?? null);
   const userName = useUserStore((s) => s.user?.name ?? null);
@@ -64,44 +65,57 @@ export default function Header({ onLogout }: HeaderProps) {
     }
   };
 
+  const navItems = [
+    { href: "/home", label: "Home" },
+    { href: "/analytics", label: "Analytics" },
+    { href: "/social", label: "Social" },
+  ];
+
   return (
     <header className="w-full border-b bg-background/70 backdrop-blur supports-[backdrop-filter]:bg-background/50">
       <div className="mx-auto flex h-14 max-w-screen-2xl items-center justify-between px-3 sm:px-6">
         {/* Left: Logo */}
-        <div className="flex items-center gap-2">
-          <Image
-            src="/kordor-logo.svg"
-            alt="App logo"
-            width={32}
-            height={32}
-            priority
-            className="h-8 w-auto"
-          />
+        <div className="flex items-center gap-3">
+          <Image src="/kordor-logo.svg" alt="App logo" width={32} height={32} priority className="h-8 w-auto" />
         </div>
+
+        {/* Center: Nav */}
+        <nav className="absolute left-1/2 -translate-x-1/2 flex gap-4">
+          {navItems.map((item) => {
+            const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`text-sm px-3 py-1.5 rounded transition-colors ${
+                  active ? "bg-blue-600 text-white" : "text-gray-600 hover:bg-gray-100"
+                }`}
+              >
+                {item.label}
+              </Link>
+            );
+          })}
+        </nav>
 
         {/* Right: Avatar dropdown */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="h-9 px-2">
               <div className="rounded-full bg-blue-600 p-[2px]">
-                {" "}
-                {/* change color here */}
                 <Avatar className="h-7 w-7">
                   <AvatarImage src={imageUrl} alt="User avatar" />
-                  <AvatarFallback className="text-xs text-white bg-blue-600">
-                    {initials}
-                  </AvatarFallback>
+                  <AvatarFallback className="text-xs text-white bg-blue-600">{initials}</AvatarFallback>
                 </Avatar>
               </div>
             </Button>
           </DropdownMenuTrigger>
+
           <DropdownMenuContent align="end" className="w-60">
             <DropdownMenuLabel className="leading-tight">
               <div className="font-semibold">{userName ?? "Signed in"}</div>
-              <div className="text-xs text-muted-foreground truncate">
-                {email ?? ""}
-              </div>
+              <div className="text-xs text-muted-foreground truncate">{email ?? ""}</div>
             </DropdownMenuLabel>
+
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem onClick={() => router.push("/account")}>
@@ -109,23 +123,23 @@ export default function Header({ onLogout }: HeaderProps) {
                 <span>Profile</span>
                 <DropdownMenuShortcut>P</DropdownMenuShortcut>
               </DropdownMenuItem>
+
               <DropdownMenuItem onClick={() => router.push("/settings")}>
                 <Settings className="mr-2 h-4 w-4" />
                 <span>Settings</span>
                 <DropdownMenuShortcut>S</DropdownMenuShortcut>
               </DropdownMenuItem>
+
               <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
                 <PasswordResetModal />
               </DropdownMenuItem>
+
               <DropdownMenuSub>
                 <DropdownMenuSubTrigger>
-                  {theme === "dark" ? (
-                    <Moon className="mr-2 h-4 w-4" />
-                  ) : (
-                    <Sun className="mr-2 h-4 w-4" />
-                  )}
+                  {theme === "dark" ? <Moon className="mr-2 h-4 w-4" /> : <Sun className="mr-2 h-4 w-4" />}
                   <span>Theme</span>
                 </DropdownMenuSubTrigger>
+
                 <DropdownMenuPortal>
                   <DropdownMenuSubContent>
                     <DropdownMenuItem onClick={() => setTheme("light")}>
@@ -144,11 +158,9 @@ export default function Header({ onLogout }: HeaderProps) {
                 </DropdownMenuPortal>
               </DropdownMenuSub>
             </DropdownMenuGroup>
+
             <DropdownMenuSeparator />
-            <DropdownMenuItem
-              onClick={handleLogout}
-              className="text-red-600 focus:text-red-600"
-            >
+            <DropdownMenuItem onClick={handleLogout} className="text-red-600 focus:text-red-600">
               <LogOut className="mr-2 h-4 w-4" />
               <span>Log out</span>
               <DropdownMenuShortcut>⌘L</DropdownMenuShortcut>

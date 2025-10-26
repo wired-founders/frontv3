@@ -60,7 +60,7 @@ export function SignupForm({
   };
 
   function handleGoogleSignup() {
-    window.location.href = `${apiUrl}/auth/google`;
+    window.location.href = `${apiUrl}/auth/google-signup`;
   }
 
   return (

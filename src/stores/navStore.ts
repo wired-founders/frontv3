@@ -9,7 +9,7 @@
 
 import { create } from "zustand";
 
-type Page = "dashboard" | "users" | "settings" | "company" | "channels"|"items";
+type Page = "dashboard" | "users" | "settings" | "company" | "channels"|"items"| 'analytics';
 
 type NavigationStore = {
   activePage: Page;

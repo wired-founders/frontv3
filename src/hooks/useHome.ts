@@ -3,13 +3,13 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { createCompany } from "@/lib/api/onboardApi";
 import { getCompany, getAssets } from "@/lib/api/fetchApi";
 import { useUserStore } from "@/providers/UserStoreProvider";
-import { CompanyData } from "@/types/onboard_types";
+import { CompanyInput } from "@/types/onboard_types";
 
 // Company queries
 export function useCompany() {
   const companyId = useUserStore((s) => s.company?.id);
 
-  return useQuery<CompanyData>({
+  return useQuery<CompanyInput>({
     queryKey: ["company", companyId],
     queryFn: getCompany,
     retry: 1,
@@ -19,11 +19,14 @@ export function useCompany() {
 
 export function useCreateCompany() {
   const queryClient = useQueryClient();
+  const setCompany = useUserStore((s) => s.setCompany);
 
-  return useMutation<any, Error, CompanyData>({
+  return useMutation<any, Error, CompanyInput>({
     mutationFn: createCompany,
-    onSuccess: () => {
+    onSuccess: (company) => {
       queryClient.invalidateQueries({ queryKey: ["company"] });
+      //console.log('hu',company)
+      setCompany({ id: company.id, name: company.name });
     },
   });
 }

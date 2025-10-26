@@ -14,7 +14,7 @@ export default function CompanyPage() {
   const handleSubmit = async (formData: any) => {
     createMutation.mutate(formData, {
       onSuccess: () => alert("Company created!"),
-      onError: () => alert("Error creating company")
+      onError: () => alert("Error creating company"),
     });
   };
 

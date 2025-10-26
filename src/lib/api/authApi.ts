@@ -41,7 +41,7 @@ export async function signUp(data: {
 
 export async function signIn(data: { email: string; password: string }) {
   try {
-    const res = await fetch(`${apiUrl}/auth/signin-email`, {
+    const res = await fetch(`${apiUrl}/auth/login-email`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "include",

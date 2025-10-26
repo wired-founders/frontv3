@@ -1,5 +1,5 @@
 // src\types\onboard_types.ts
-export interface newWorkspaceInput {
+export interface WorkspaceInput {
   name: string;
   workspaceType?: string;
   jobRole?: string;
@@ -8,7 +8,7 @@ export interface newWorkspaceInput {
   inviteEmails?: string[];
 }
 
-export type CompanyData = {
+export type CompanyInput = {
   name: string;
   industry: string;
   website: string;
@@ -23,3 +23,11 @@ export interface Item {
   category: string;
   description: string;
 }
+
+export type ItemInput = {
+  name: string;
+  type: "product" | "service";
+  price?: string; 
+  category?: string;
+  description?: string;
+};

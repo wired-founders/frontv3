@@ -53,7 +53,7 @@ export function LoginForm({
 
   function handleGoogleLogin() {
     // Redirect user to backend OAuth endpoint (same tab)
-    window.open(`${apiUrl}/auth/google/login`, "_self");
+    window.open(`${apiUrl}/auth/google-login`, "_self");
   }
 
   return (

@@ -1,29 +1,51 @@
 // src\lib\api\fetchApi.ts
+/**
+ 1. get Company
+ 2. Get channels
+ 3. Get Items 
+ 4. Get Campaign Data
+ */
 import { apiUrl } from "@/config/env.client";
-import {CompanyData } from '@/types/onboard_types'
+import { CompanyInput, Item } from "@/types/onboard_types";
 
-export async function getCompany(): Promise<CompanyData> {
+export async function getCompany(): Promise<CompanyInput> {
   const response = await fetch(`${apiUrl}/api/company`, {
-    credentials: 'include'
+    credentials: "include",
   });
-  if (!response.ok) throw new Error('Failed to fetch company');
+  if (!response.ok) throw new Error("Failed to fetch company");
   return response.json();
 }
 
 export async function getChannels() {
-  const response = await fetch(`${apiUrl}/api/channels`, {
-    credentials: 'include'
+  const res = await fetch(`${apiUrl}/api/channels`, {
+    credentials: "include",
   });
-  if (!response.ok) throw new Error('Failed to fetch channels');
-  return response.json();
+  if (!res.ok) throw new Error("Failed to fetch channels");
+  console.log('channels', res.json())
+  return res.json();
 }
 
+type GetItemsOpts = { signal?: AbortSignal };
+
+export async function getItems(opts: GetItemsOpts = {}): Promise<Item[]> {
+  const res = await fetch(`${apiUrl}/api/items`, {
+    method: "GET",
+    credentials: "include",
+    headers: { "Content-Type": "application/json" },
+    signal: opts.signal,
+    cache: "no-store",
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.message || `Failed to fetch items (${res.status})`);
+  }
+  const { data } = await res.json();
+  //console.log("items", data);
+  return data;
+}
 
 export async function getAssets(accountIds: string[]) {
-  const response = await fetch(
-    `${apiUrl}/api/assets?accountIds=${accountIds.join(",")}`,
-    { credentials: "include" }
-  );
+  const response = await fetch(`${apiUrl}/api/assets?accountIds=${accountIds.join(",")}`, { credentials: "include" });
   if (!response.ok) throw new Error("Failed to fetch assets");
   return response.json();
 }

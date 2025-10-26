@@ -14,10 +14,10 @@
     "**/components.json*": true,
 
     // lockfiles & docs
-    "**/package.json": true,
+    "**/package.json": false,
     "**/pnpm-lock.yaml": true,
     "**/tsconfig.json": true,
-    "**/.gitignore": true,
+    "**/.gitignore": false,
     "**/tests": false,
 
     "**/.env": false,

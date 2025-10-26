@@ -6,7 +6,7 @@
  * 3. Company
  */
 
-import { createStore } from 'zustand/vanilla';
+import { createStore } from "zustand/vanilla";
 
 export type User = {
   id: string;
@@ -28,24 +28,30 @@ export type SocialAccount = {
   accountName: string | null;
   platform: string;
 };
-type UserStore = {
+type UserState = {
   user: User | null;
   workspace: Workspace | null;
   company: Company | null;
-   socialAccounts: SocialAccount[];
+  socialAccounts: SocialAccount[];
 };
+type UserActions = {
+  setCompany: (company: Company) => void;
+};
+export type UserStore = UserState & UserActions;
 
 export const createUserStore = (
   initialUser: User | null = null,
   initialWorkspace: Workspace | null = null,
   initialCompany: Company | null = null,
-    initialSocialAccounts: SocialAccount[] = []
+  initialSocialAccounts: SocialAccount[] = []
 ) => {
-  return createStore<UserStore>(() => ({
+  return createStore<UserStore>((set) => ({
     user: initialUser,
     workspace: initialWorkspace,
     company: initialCompany,
     socialAccounts: initialSocialAccounts,
+
+    setCompany: (company: Company) => set({ company }),
   }));
 };
 
