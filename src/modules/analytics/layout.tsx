@@ -1,11 +1,11 @@
-// src/modules/analytics/layout.tsx
+// src\modules\analytics\layout.tsx
 import Sidebar from "./components/layout/Sidebar";
 
 export default function AnalyticsLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex min-h-screen">
+    <div className="grid h-screen grid-cols-[250px_1fr]">
       <Sidebar />
-      <main className="flex-1">{children}</main>
+      <main>{children}</main>
     </div>
   );
 }

@@ -4,7 +4,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useUserStore } from "@/providers/UserStoreProvider";
 
-type Asset = {
+export type Asset = {
   id: string;
   accountId: string;
   provider: string;
@@ -15,7 +15,7 @@ type Asset = {
   parentName: string | null;
 };
 
-type BusinessGroup = {
+export type BusinessGroup = {
   business: Asset;
   children: Asset[];
   counts?: Record<string, number>;
