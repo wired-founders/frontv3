@@ -18,13 +18,8 @@ import { checkSession } from "@/lib/api/serverAuthApi";
 import Header from "@/components/layout/dashboard/Header";
 import { UserStoreProvider } from "@/providers/UserStoreProvider";
 
-export default async function AuthLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default async function AuthLayout({ children }: { children: React.ReactNode }) {
   const result = await checkSession();
-  //console.log(result);
 
   if (!result.ok) {
     if (result.status === 401) redirect("/login");
@@ -40,8 +35,12 @@ export default async function AuthLayout({
       initialCompany={result.company}
       initialSocialAccounts={result.socialAccounts}
     >
-      <Header />
-      <main>{children}</main>
+      <div className="grid min-h-[100dvh] grid-rows-[var(--header-height)_1fr]">
+        <Header />
+        {/* Children row will contain the module's AppShell with its own sidebar */}
+        {children}
+      </div>
     </UserStoreProvider>
   );
 }
+
