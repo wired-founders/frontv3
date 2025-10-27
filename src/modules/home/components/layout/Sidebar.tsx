@@ -16,12 +16,16 @@ export default function Sidebar() {
     { id: "company" as const, icon: Building2, label: "Company" },
     { id: "channels" as const, icon: Share2, label: "Channels" },
     { id: "analytics" as const, icon: BarChart3, label: "Analytics" },
-
     { id: "items" as const, icon: Package, label: "Items" },
   ];
 
   return (
-    <div className={cn("border-r bg-background transition-all duration-300", collapsed ? "w-16" : "w-64")}>
+    <div 
+      className="border-r bg-background transition-all duration-300"
+      style={{
+        width: collapsed ? 'var(--sidebar-collapsed-width)' : 'var(--sidebar-width)'
+      }}
+    >
       <div className="flex h-14 items-center justify-end px-3 border-b">
         <Button variant="ghost" size="icon" onClick={() => setCollapsed(!collapsed)}>
           {collapsed ? <ChevronRight /> : <ChevronLeft />}

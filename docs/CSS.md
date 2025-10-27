@@ -7,7 +7,7 @@
         } as React.CSSProperties}
 
 2. Dashboard Layout
-    - this is the dashbaord frame so should be min-h-[100dvh] dynamic viewport height 
+    - this is the dashbaord frame so should be h-[100dvh] dynamic viewport height 
     - 2 rows for 2 components (header & children) grid-rows-[var(--header-height)_1fr]
     - header  would use headers height
     - children would take the rest

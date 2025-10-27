@@ -35,7 +35,7 @@ export default async function AuthLayout({ children }: { children: React.ReactNo
       initialCompany={result.company}
       initialSocialAccounts={result.socialAccounts}
     >
-      <div className="grid min-h-[100dvh] grid-rows-[var(--header-height)_1fr]">
+      <div className="grid h-[100dvh] grid-rows-[var(--header-height)_1fr]">
         <Header />
         {/* Children row will contain the module's AppShell with its own sidebar */}
         {children}

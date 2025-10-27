@@ -1,4 +1,7 @@
-// src/modules/social/layout.tsx
+// src\modules\social\layout.tsx
+import DashboardShell from "@/components/DashboardShell";
+import SocialSidebar from "./components/Sidebar";
+
 export default function SocialLayout({ children }: { children: React.ReactNode }) {
-  return <main>{children}</main>;
+  return <DashboardShell sidebar={<SocialSidebar />}>{children}</DashboardShell>;
 }

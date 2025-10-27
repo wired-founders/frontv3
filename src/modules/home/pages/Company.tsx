@@ -19,7 +19,7 @@ export default function CompanyPage() {
   };
 
   return (
-    <div className="p-6">
+    <div className="h-full p-6">
       <h1 className="text-2xl font-bold mb-6">Company Profile</h1>
       <CompanyForm onSubmit={handleSubmit} defaultValues={data} />
     </div>

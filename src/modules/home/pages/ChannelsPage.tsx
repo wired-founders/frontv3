@@ -73,9 +73,8 @@ export default function ChannelsPage() {
     run();
     return () => ac.abort();
   }, [accountIds]);
-
-  if (loading) return <div className="p-6">Loading assets...</div>;
-  if (error) return <div className="p-6 text-red-600">{error}</div>;
+if (loading) return <div className="h-full overflow-y-auto p-6">Loading assets...</div>;
+if (error) return <div className="h-full overflow-y-auto p-6 text-red-600">{error}</div>;
 
   // Compute counts if backend didn't send them
   const normalized = groups.map((g) => {
@@ -88,7 +87,7 @@ export default function ChannelsPage() {
   });
 
   return (
-    <div className="p-6 space-y-6">
+    <div className=" h-full overflow-y-auto p-6 space-y-6 ">
       <h1 className="text-2xl font-bold">Connected Channels</h1>
 
       {normalized.length === 0 ? (
