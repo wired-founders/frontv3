@@ -1,8 +1,9 @@
-// src\app\(dashboard)\home\pages\ChannelsPage.tsx
+// src\modules\home\pages\ChannelsPage.tsx
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
 import { useUserStore } from "@/providers/UserStoreProvider";
+import { ConnectChannelsModal } from "../components/modals/ConnectChannelsModal";
 
 export type Asset = {
   id: string;
@@ -24,7 +25,11 @@ export type BusinessGroup = {
 export default function ChannelsPage() {
   const socialAccounts = useUserStore((s) => s.socialAccounts);
   const accountIds = useMemo(
-    () => socialAccounts.map((acc: any) => acc.id).filter(Boolean).join(","),
+    () =>
+      socialAccounts
+        .map((acc: any) => acc.id)
+        .filter(Boolean)
+        .join(","),
     [socialAccounts]
   );
 
@@ -46,10 +51,10 @@ export default function ChannelsPage() {
         setLoading(true);
         setError(null);
 
-        const res = await fetch(
-          `http://localhost:5000/api/assets?accountIds=${encodeURIComponent(accountIds)}`,
-          { credentials: "include", signal: ac.signal }
-        );
+        const res = await fetch(`http://localhost:5000/api/assets?accountIds=${encodeURIComponent(accountIds)}`, {
+          credentials: "include",
+          signal: ac.signal,
+        });
         if (!res.ok) throw new Error(`Failed: ${res.status}`);
 
         const json = await res.json();
@@ -95,9 +100,7 @@ export default function ChannelsPage() {
               <div className="mb-3 flex items-start justify-between">
                 <div>
                   <h3 className="text-lg font-semibold">{business.name}</h3>
-                  <p className="text-xs text-gray-500">
-                    Business ID: {business.externalId}
-                  </p>
+                  <p className="text-xs text-gray-500">Business ID: {business.externalId}</p>
                 </div>
                 <div className="text-xs text-gray-600">
                   {Object.entries(counts || {})
@@ -111,21 +114,14 @@ export default function ChannelsPage() {
               ) : (
                 <div className="space-y-2">
                   {children.map((child) => (
-                    <div
-                      key={child.id}
-                      className="border-l-2 border-gray-200 pl-3"
-                    >
+                    <div key={child.id} className="border-l-2 border-gray-200 pl-3">
                       <div className="flex items-center gap-2">
                         <span className="font-medium">{child.name}</span>
                         <span className="text-xs text-gray-500">
                           {child.assetType} · {child.provider}
                         </span>
                       </div>
-                      {child.parentName && (
-                        <p className="text-[11px] text-gray-400">
-                          Parent: {child.parentName}
-                        </p>
-                      )}
+                      {child.parentName && <p className="text-[11px] text-gray-400">Parent: {child.parentName}</p>}
                     </div>
                   ))}
                 </div>

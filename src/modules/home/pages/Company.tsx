@@ -1,4 +1,4 @@
-// src\app\(dashboard)\home\pages\Company.tsx
+// src\modules\home\pages\Company.tsx
 "use client";
 
 import CompanyForm from "@/components/forms/CompanyForm";

@@ -1,3 +1,7 @@
+// src\components\layout\dashboard\Header.tsx
+/**
+ * 
+ */
 "use client";
 
 import { PasswordResetModal } from "@/components/modals/PasswordResetModal";

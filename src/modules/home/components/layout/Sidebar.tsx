@@ -1,18 +1,8 @@
-// src\components\layout\dashboard\Sidebar.tsx
+// src\modules\home\components\layout\Sidebar.tsx
 "use client";
 
 import { useState } from "react";
-import {
-  ChevronLeft,
-  ChevronRight,
-  LayoutDashboard,
-  Building2,
-  UserCircle2,
-  Share2,
-  Package,
-  Settings,
-  BarChart3,
-} from "lucide-react";
+import { ChevronLeft, ChevronRight, LayoutDashboard, Building2, Share2, Package, BarChart3 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useHomeNavStore } from "@/stores/useHomeNav";

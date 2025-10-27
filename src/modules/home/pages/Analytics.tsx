@@ -1,4 +1,4 @@
-// src\app\(dashboard)\home\pages\Analytics.tsx
+// src\modules\home\pages\Analytics.tsx
 "use client";
 
 import { useState, useEffect } from "react";

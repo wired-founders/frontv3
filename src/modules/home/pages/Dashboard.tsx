@@ -1,4 +1,4 @@
-// src\app\(dashboard)\home\pages\Dashboard.tsx
+// src\modules\home\pages\Dashboard.tsx
 "use client";
 
 import { useUserStore } from "@/providers/UserStoreProvider";

@@ -1,4 +1,4 @@
-// src/components/ConnectChannelsModal.tsx
+// src\modules\home\components\modals\ConnectChannelsModal.tsx
 "use client";
 
 import {
