@@ -20,9 +20,7 @@ const data = [
         assets: [
           { id: "pg_10", assetType: "page", name: "Neo Corporate Page", externalId: "4433221100" },
           { id: "pg_11", assetType: "page", name: "Neo Events", externalId: "9988776655" },
-          { id: "ad_10", assetType: "ad_account", name: "LinkedIn Ads Account", externalId: "act_1122334455" },
-          { id: "ig_10", assetType: "ig_account", name: "@neoagency", externalId: "178414009" },
-          { id: "wa_10", assetType: "wa_account", name: "Neo Client Support", externalId: "whatsapp:+94776543210" },
+          
         ],
       },
     ],

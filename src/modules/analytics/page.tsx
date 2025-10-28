@@ -1,8 +1,8 @@
-// src/modules/analytics/page.tsx
+// src\modules\analytics\page.tsx
 "use client";
 
 import { useAnalyticsNav } from "@/stores/useAnalyticsNav";
-import { OverviewPage, AnalyticsPage } from "./pages";
+import { OverviewPage, AnalyticsPage, CampaignPage, OrganicPage } from "./pages";
 
 export default function AnalyticsHome() {
   const analyticsPage = useAnalyticsNav((s) => s.activeSection);
@@ -12,6 +12,10 @@ export default function AnalyticsHome() {
       return <OverviewPage />;
     case "connect":
       return <AnalyticsPage />;
+    case "campaigns":
+      return <CampaignPage />;
+    case "organic":
+      return <OrganicPage />;
     default:
       return <OverviewPage />;
   }

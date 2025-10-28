@@ -6,7 +6,7 @@ import { create } from "zustand";
  * Keeps track of the active analytics section (Overview, Paid, Organic, etc.)
  */
 
-type AnalyticsSection = "overview" | "paid" | "organic" | "insights" | "reports"|'connect';
+type AnalyticsSection = "overview" | "paid" | "organic" | "campaigns" | "reports"|'connect';
 
 interface AnalyticsNavState {
   activeSection: AnalyticsSection;

@@ -3,7 +3,7 @@
 
 import { useForm } from "react-hook-form";
 import { CompanyInput } from "@/types/home_types";
-import { normalizeWebsite } from "@/utils/normalize";
+import { normalizeWebsite } from "@/utils/utilities";
 
 type CompanyFormProps = {
   onSubmit: (data: CompanyInput) => Promise<void>;

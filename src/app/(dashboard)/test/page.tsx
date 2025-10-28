@@ -1,75 +1,80 @@
 // src\app\(dashboard)\test\page.tsx
 "use client";
-import data from "./data";
-import { Facebook, Instagram, Linkedin, Youtube } from "lucide-react";
-import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui";
-import { ReactElement } from "react";
 
-const providerIcons: Record<string, ReactElement> = {
-  facebook: <Facebook className="w-5 h-5 text-blue-600" />,
-  instagram: <Instagram className="w-5 h-5 text-pink-500" />,
-  linkedin: <Linkedin className="w-5 h-5 text-sky-700" />,
-  youtube: <Youtube className="w-5 h-5 text-red-600" />,
-};
+import { Button, Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui";
+import { fetchChannelss } from "@/lib/api/fetchApi";
+import { useEffect, useState } from "react";
+import { useUserStore } from "@/providers/UserStoreProvider";
+import { groupByProvider } from "@/utils/utilities";
+import { BusinessAssetsModal } from "@/components/modals/BusinessAssetsModal";
 
-export default function ConnectionPage() {
-  const providers = data.map((platform) => ({
-    name: platform.provider,
-    count: platform.businesses.length,
-    businesses: platform.businesses,
-  }));
+export default function TestPage() {
+  const socialAccounts = useUserStore((s) => s.socialAccounts);
+  const accountIds = socialAccounts.map((a: any) => a?.id).filter(Boolean);
+  const [groups, setGroups] = useState<any[]>([]);
+  const [selectedBusiness, setSelectedBusiness] = useState<any>(null);
 
-  console.log("groups", providers);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  useEffect(() => {
+    (async () => {
+      try {
+        const groups = await fetchChannelss(accountIds);
+        console.log("log", groups);
+        setGroups(groups);
+      } catch (err) {
+        console.error(err);
+      }
+    })();
+  }, []);
+  const handleOpenBusiness = (group: any) => {
+    setSelectedBusiness(group);
+    setIsModalOpen(true);
+  };
+  const groupedByProvider = groupByProvider(groups);
+
   return (
     <div className="h-full grid grid-rows-[auto_1fr] overflow-hidden">
-      {/* Sub-header */}
       <div className="flex items-center justify-between border-b px-4 py-2 bg-neutral-50 dark:bg-neutral-900">
-        <h2 className="text-lg font-semibold">Connections</h2>
-        <button className="text-sm text-blue-600 hover:underline">+ Add Connection</button>
+        <h2 className="text-lg font-semibold">Social Accounts</h2>
+        <Button size="sm" variant="outline">
+          + Add
+        </Button>
       </div>
 
-      {/* Main content */}
-      <div className="overflow-y-auto p-6 bg-neutral-100 dark:bg-neutral-900">
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {providers.map((provider) => (
-            <Accordion
-              key={provider.name}
-              type="single"
-              collapsible
-              defaultValue=""
-              className="rounded-xl py-2 border bg-white dark:bg-neutral-950 shadow-sm
-                   data-[state=open]:shadow-md transition-shadow"
-            >
-              <AccordionItem value="details" className="rounded-xl">
-                <AccordionTrigger
-                  className="px-4 py-3 flex items-center justify-between gap-3
-                       [&[data-state=open]_.tw-rotate]:rotate-180"
-                >
-                  <div className="flex items-center gap-2">
-                    {providerIcons[provider.name] || null}
-                    <h3 className="text-base font-semibold capitalize">{provider.name}</h3>
-                  </div>
-                  <span className="text-xs text-gray-500">{provider.count} Business Managers</span>
-                </AccordionTrigger>
-                <AccordionContent className="px-4 pb-4 pt-0 border-t space-y-2">
-                  {provider.businesses.map((biz) => (
+      <div className="p-4 grid items-start gap-4 sm:grid-cols-2 lg:grid-cols-3 auto-rows-min">
+        {Object.entries(groupedByProvider).map(([provider, providerGroups]) => (
+          <Accordion key={provider} type="multiple" className="border rounded-md">
+            <AccordionItem value={provider}>
+              <AccordionTrigger className="px-3 py-2 text-sm font-medium capitalize">{provider}</AccordionTrigger>
+              <AccordionContent className="px-3 pb-3 text-sm">
+                <div className="space-y-2">
+                  {providerGroups.map((group) => (
                     <div
-                      key={biz.businessId}
-                      className="border rounded-md px-3 py-2 text-sm bg-neutral-50 dark:bg-neutral-900"
+                      key={group.business.id}
+                      className="flex justify-between items-center py-2 px-3 hover:bg-gray-50 dark:hover:bg-gray-800 rounded border"
                     >
-                      <div className="flex items-center justify-between">
-                        <p className="font-medium">{biz.businessName}</p>
-                        <span className="text-xs text-gray-500">{biz.assets?.length ?? 0} assets</span>
+                      <div className="flex-1">
+                        <span className="text-sm font-medium">{group.business.name}</span>
+                        <span className="text-xs text-gray-500 ml-2">{group.children.length} assets</span>
                       </div>
-                      <p className="text-xs text-gray-500">{biz.businessId}</p>
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        className="h-7 px-2 text-xs"
+                        onClick={() => handleOpenBusiness(group)}
+                      >
+                        Open
+                      </Button>
                     </div>
                   ))}
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
-          ))}
-        </div>
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        ))}
       </div>
+
+      <BusinessAssetsModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} business={selectedBusiness} />
     </div>
   );
 }

@@ -10,8 +10,8 @@ import { useAnalyticsNav } from "@/stores/useAnalyticsNav";
 const sections = [
   { id: "overview", label: "Overview" },
   { id: "paid", label: "Paid" },
-  { id: "organic", label: "Organic" },
-  { id: "insights", label: "Insights" },
+  { id: "organic", label: "Organic Insights" },
+  { id: "campaigns", label: "Paid Insights" },
   { id: "reports", label: "Reports" },
   { id: "connect", label: "Connect" },
 ];
@@ -22,8 +22,8 @@ export default function AnalyticsSidebar() {
 
   useEffect(() => {
     document.documentElement.style.setProperty(
-      '--sidebar-width',
-      collapsed ? 'var(--sidebar-collapsed-width)' : '240px'
+      "--sidebar-width",
+      collapsed ? "var(--sidebar-collapsed-width)" : "240px"
     );
   }, [collapsed]);
 
@@ -42,9 +42,7 @@ export default function AnalyticsSidebar() {
             onClick={() => setActiveSection(s.id as any)}
             className={cn(
               "flex w-full items-center gap-3 rounded-lg px-3 py-2 transition-colors text-sm font-medium",
-              activeSection === s.id 
-                ? "bg-primary text-primary-foreground" 
-                : "hover:bg-muted"
+              activeSection === s.id ? "bg-primary text-primary-foreground" : "hover:bg-muted"
             )}
           >
             {!collapsed && <span>{s.label}</span>}
