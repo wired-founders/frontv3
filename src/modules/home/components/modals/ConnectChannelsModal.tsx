@@ -1,13 +1,7 @@
 // src\modules\home\components\modals\ConnectChannelsModal.tsx
 "use client";
 
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Button, Card, CardHeader, CardTitle, CardContent } from "@/components/ui";
 import { Facebook, Instagram, Linkedin, Music2, Globe } from "lucide-react";
 import { apiUrl } from "@/config/env.client";
@@ -19,8 +13,11 @@ const platformSlug: Record<string, string> = {
   LinkedIn: "linkedin",
   Website: "website",
 };
-
-export function ConnectChannelsModal() {
+type Props = {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+};
+export function ConnectChannelsModal({ open, onOpenChange }: Props) {
   const platforms = [
     { name: "Facebook", icon: Facebook },
     { name: "Instagram", icon: Instagram },
@@ -43,10 +40,7 @@ export function ConnectChannelsModal() {
   };
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button>Connect Channels</Button>
-      </DialogTrigger>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-3xl">
         <DialogHeader>
           <DialogTitle>Connect Your Channels</DialogTitle>

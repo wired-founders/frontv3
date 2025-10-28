@@ -1,9 +1,9 @@
-// src\modules\analytics\layout.tsx
+// src\app\(dashboard)\test\layout.tsx
 import DashboardShell from "@/components/DashboardShell";
-import Sidebar from "./components/layout/Sidebar";
+import Sidebar from "@/modules/home/components/layout/Sidebar";
 import { QueryProvider } from "@/providers/QueryProvider";
 
-export default function AnalyticsLayout({ children }: { children: React.ReactNode }) {
+export default async function HomeLayout({ children }: { children: React.ReactNode }) {
   return (
     <QueryProvider>
       <DashboardShell sidebar={<Sidebar />}>

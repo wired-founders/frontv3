@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "@/styles/globals.css";
 import { ThemeProvider } from "next-themes";
+import { Toaster } from "@/components/ui/sonner"; // or "sonner" if you didn’t generate a wrapper
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
@@ -14,17 +15,21 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning
-    style={
+    <html
+      lang="en"
+      suppressHydrationWarning
+      style={
         {
-          '--header-height': '3.5rem', // 56px
-          '--sidebar-width': '16rem', // 256px
-          '--sidebar-collapsed-width': '4rem' /* 64px */,
+          "--header-height": "3.5rem", // 56px
+          "--sidebar-width": "16rem", // 256px
+          "--sidebar-collapsed-width": "4rem" /* 64px */,
         } as React.CSSProperties
-      }>
+      }
+    >
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           {children}
+         <Toaster richColors  position="top-center" />
         </ThemeProvider>
       </body>
     </html>

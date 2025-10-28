@@ -2,7 +2,7 @@
 "use client";
 
 import { useForm } from "react-hook-form";
-import { CompanyInput } from "@/types/onboard_types";
+import { CompanyInput } from "@/types/home_types";
 import { normalizeWebsite } from "@/utils/normalize";
 
 type CompanyFormProps = {

@@ -6,7 +6,7 @@
  4. Get Campaign Data
  */
 import { apiUrl } from "@/config/env.client";
-import { CompanyInput, Item } from "@/types/onboard_types";
+import { CompanyInput, Item } from "@/types/home_types";
 
 export async function getCompany(): Promise<CompanyInput> {
   const response = await fetch(`${apiUrl}/api/company`, {
@@ -21,7 +21,7 @@ export async function getChannels() {
     credentials: "include",
   });
   if (!res.ok) throw new Error("Failed to fetch channels");
-  console.log('channels', res.json())
+  console.log("channels", res.json());
   return res.json();
 }
 
@@ -48,4 +48,15 @@ export async function getAssets(accountIds: string[]) {
   const response = await fetch(`${apiUrl}/api/assets?accountIds=${accountIds.join(",")}`, { credentials: "include" });
   if (!response.ok) throw new Error("Failed to fetch assets");
   return response.json();
+}
+
+
+export async function fetchChannels(accountIds: string) {
+  const res = await fetch(`${apiUrl}/api/assets?accountIds=${encodeURIComponent(accountIds)}`, {
+    credentials: "include",
+  });
+
+  if (!res.ok) throw new Error(`Failed to fetch channels: ${res.status}`);
+
+  return res.json();
 }

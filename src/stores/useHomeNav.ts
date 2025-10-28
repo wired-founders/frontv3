@@ -10,12 +10,17 @@ import { create } from "zustand";
 
 type Page = "dashboard" | "users" | "settings" | "company" | "channels" | "items" | "analytics";
 
+// src/stores/useHomeNav.ts
 type HomeNavStore = {
   activePage: Page;
   setActivePage: (page: Page) => void;
+  sidebarCollapsed: boolean;
+  setSidebarCollapsed: (collapsed: boolean) => void;
 };
 
 export const useHomeNavStore = create<HomeNavStore>((set) => ({
   activePage: "dashboard",
   setActivePage: (page) => set({ activePage: page }),
+  sidebarCollapsed: false,
+  setSidebarCollapsed: (collapsed) => set({ sidebarCollapsed: collapsed }),
 }));

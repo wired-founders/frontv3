@@ -1,6 +1,6 @@
 // src\components\layout\dashboard\Header.tsx
 /**
- * 
+ *
  */
 "use client";
 
@@ -107,7 +107,16 @@ export default function Header({ onLogout }: HeaderProps) {
             <Button variant="ghost" className="h-9 px-2">
               <div className="rounded-full bg-blue-600 p-[2px]">
                 <Avatar className="h-7 w-7">
-                  <AvatarImage src={imageUrl} alt="User avatar" />
+                  {imageUrl && (
+                    <Image
+                      src={imageUrl}
+                      alt="User avatar"
+                      width={28}
+                      height={28}
+                      className="rounded-full"
+                      unoptimized
+                    />
+                  )}
                   <AvatarFallback className="text-xs text-white bg-blue-600">{initials}</AvatarFallback>
                 </Avatar>
               </div>

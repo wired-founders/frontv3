@@ -1,3 +1,4 @@
+// src\components\modals\ItemsModal.tsx
 "use client";
 
 import { useState } from "react";
@@ -11,7 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import ItemsForm from "@/components/forms/ItemsForm";
-import { ItemInput } from "@/types/onboard_types";
+import { ItemInput } from "@/types/home_types";
 
 type Props = {
   onCreate: (values: ItemInput) => Promise<void>;

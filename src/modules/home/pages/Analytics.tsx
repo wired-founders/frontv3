@@ -3,26 +3,12 @@
 
 import { useState, useEffect } from "react";
 import { useUserStore } from "@/providers/UserStoreProvider";
+import { Campaign } from "@/types/home_types";
 
-type Campaign = {
-  id: string;
-  assetId: string;
-  provider: string;
-  externalId: string;
-  entityType: string;
-  parentId: string | null;
-  name: string;
-  status: string;
-  objective: string;
-  metadata: any;
-  createdAt: string;
-  updatedAt: string;
-};
-
-function AnalyticsHeader({ 
-  selectedAccountId, 
-  setSelectedAccountId, 
-  adAccountIds, 
+function AnalyticsHeader({
+  selectedAccountId,
+  setSelectedAccountId,
+  adAccountIds,
   fetchingAccounts,
   platform,
   setPlatform,
@@ -30,7 +16,7 @@ function AnalyticsHeader({
   setStart,
   end,
   setEnd,
-  fetchAnalytics
+  fetchAnalytics,
 }: any) {
   return (
     <div className="bg-white border rounded-lg p-4 space-y-3">
@@ -44,7 +30,9 @@ function AnalyticsHeader({
         >
           <option value="">{fetchingAccounts ? "Loading accounts..." : "Select Ad Account"}</option>
           {adAccountIds.map((id: string) => (
-            <option key={id} value={id}>{id}</option>
+            <option key={id} value={id}>
+              {id}
+            </option>
           ))}
         </select>
       </div>
@@ -152,48 +140,55 @@ export default function AnalyticsPage() {
   };
 
   return (
-    <div className="p-6 space-y-4">
-      <h1 className="text-2xl font-bold">Analytics</h1>
-
-      <AnalyticsHeader
-        selectedAccountId={selectedAccountId}
-        setSelectedAccountId={setSelectedAccountId}
-        adAccountIds={adAccountIds}
-        fetchingAccounts={fetchingAccounts}
-        platform={platform}
-        setPlatform={setPlatform}
-        start={start}
-        setStart={setStart}
-        end={end}
-        setEnd={setEnd}
-        fetchAnalytics={fetchAnalytics}
-      />
-
-      {loading && <div className="text-gray-600">Loading...</div>}
-      {error && <div className="text-red-600">{error}</div>}
-
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {campaigns.map((campaign) => (
-          <div key={campaign.id} className="bg-white border p-4 rounded-lg">
-            <p className="text-lg font-semibold">{campaign.name}</p>
-            <p className="text-sm text-gray-600">
-              Status: <span className={`font-medium ${campaign.status === 'ACTIVE' ? 'text-green-600' : 'text-gray-500'}`}>
-                {campaign.status}
-              </span>
-            </p>
-            <p className="text-sm text-gray-600">
-              Objective: <span className="font-medium">{campaign.objective}</span>
-            </p>
-            <p className="text-sm text-gray-600">
-              Provider: <span className="font-medium">{campaign.provider}</span>
-            </p>
-          </div>
-        ))}
+    <div className="h-full grid grid-rows-[auto_1fr] overflow-hidden">
+      {/* Sub Header */}
+      <div className="border-b px-6 py-4">
+        <h1 className="text-2xl font-bold">Analytics</h1>
       </div>
 
-      {!loading && !error && campaigns.length === 0 && (
-        <p className="text-gray-500">No campaigns found. Try selecting an ad account.</p>
-      )}
+      {/* Content Section */}
+      <div className="overflow-y-auto p-6 space-y-4">
+        <AnalyticsHeader
+          selectedAccountId={selectedAccountId}
+          setSelectedAccountId={setSelectedAccountId}
+          adAccountIds={adAccountIds}
+          fetchingAccounts={fetchingAccounts}
+          platform={platform}
+          setPlatform={setPlatform}
+          start={start}
+          setStart={setStart}
+          end={end}
+          setEnd={setEnd}
+          fetchAnalytics={fetchAnalytics}
+        />
+
+        {loading && <div className="text-gray-600">Loading...</div>}
+        {error && <div className="text-red-600">{error}</div>}
+
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {campaigns.map((campaign) => (
+            <div key={campaign.id} className="bg-white border p-4 rounded-lg">
+              <p className="text-lg font-semibold">{campaign.name}</p>
+              <p className="text-sm text-gray-600">
+                Status:{" "}
+                <span className={`font-medium ${campaign.status === "ACTIVE" ? "text-green-600" : "text-gray-500"}`}>
+                  {campaign.status}
+                </span>
+              </p>
+              <p className="text-sm text-gray-600">
+                Objective: <span className="font-medium">{campaign.objective}</span>
+              </p>
+              <p className="text-sm text-gray-600">
+                Provider: <span className="font-medium">{campaign.provider}</span>
+              </p>
+            </div>
+          ))}
+        </div>
+
+        {!loading && !error && campaigns.length === 0 && (
+          <p className="text-gray-500">No campaigns found. Try selecting an ad account.</p>
+        )}
+      </div>
     </div>
   );
 }

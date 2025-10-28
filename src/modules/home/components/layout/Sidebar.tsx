@@ -1,7 +1,7 @@
 // src\modules\home\components\layout\Sidebar.tsx
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight, LayoutDashboard, Building2, Share2, Package, BarChart3 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -10,6 +10,14 @@ import { useHomeNavStore } from "@/stores/useHomeNav";
 export default function Sidebar() {
   const [collapsed, setCollapsed] = useState(false);
   const { activePage, setActivePage } = useHomeNavStore();
+
+  // Update CSS variable when collapsed changes
+  useEffect(() => {
+    document.documentElement.style.setProperty(
+      "--sidebar-width",
+      collapsed ? "var(--sidebar-collapsed-width)" : "240px" // or your default width
+    );
+  }, [collapsed]);
 
   const links = [
     { id: "dashboard" as const, icon: LayoutDashboard, label: "Dashboard" },
@@ -20,12 +28,7 @@ export default function Sidebar() {
   ];
 
   return (
-    <div 
-      className="border-r bg-background transition-all duration-300"
-      style={{
-        width: collapsed ? 'var(--sidebar-collapsed-width)' : 'var(--sidebar-width)'
-      }}
-    >
+    <div className="border-r bg-background transition-all duration-300 h-full">
       <div className="flex h-14 items-center justify-end px-3 border-b">
         <Button variant="ghost" size="icon" onClick={() => setCollapsed(!collapsed)}>
           {collapsed ? <ChevronRight /> : <ChevronLeft />}

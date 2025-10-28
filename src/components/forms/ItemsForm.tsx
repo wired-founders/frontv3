@@ -3,7 +3,7 @@
 
 import { useForm } from "react-hook-form";
 import { Input, Button, Label, Textarea } from "@/components/ui";
-import { ItemInput } from "@/types/onboard_types";
+import { ItemInput } from "@/types/home_types";
 
 // Export so the page can import the type
 

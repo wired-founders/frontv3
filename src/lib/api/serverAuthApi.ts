@@ -36,6 +36,7 @@ export async function checkSession(): Promise<SessionResult> {
 
   try {
     const result = await res.json();
+    console.log('Avatar URL:', result.user?.image);
     return { ok: true, ...result };
   } catch {
     return { ok: false, status: 500 };

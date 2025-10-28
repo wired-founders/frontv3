@@ -3,7 +3,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { createCompany } from "@/lib/api/onboardApi";
 import { getCompany, getAssets } from "@/lib/api/fetchApi";
 import { useUserStore } from "@/providers/UserStoreProvider";
-import { CompanyInput } from "@/types/onboard_types";
+import { CompanyInput } from "@/types/home_types";
 
 // Company queries
 export function useCompany() {
@@ -39,9 +39,9 @@ export function useAssets() {
     queryKey: ["assets", accountIds],
     queryFn: () => getAssets(accountIds),
     enabled: accountIds.length > 0,
-    staleTime: 5 * 60 * 1000,        // Data fresh for 5 minutes
-    gcTime: 10 * 60 * 1000,          // Cache for 10 minutes
-    refetchOnWindowFocus: false,     // Don't refetch on tab switch
+    staleTime: 5 * 60 * 1000, // Data fresh for 5 minutes
+    gcTime: 10 * 60 * 1000, // Cache for 10 minutes
+    refetchOnWindowFocus: false, // Don't refetch on tab switch
   });
 }
 // Add more home module queries here

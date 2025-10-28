@@ -1,6 +1,6 @@
 // src\lib\api\onboardApi.ts
 import { apiUrl } from "@/config/env.client";
-import { WorkspaceInput, CompanyInput } from "@/types/onboard_types";
+import { WorkspaceInput, CompanyInput, ItemInput } from "@/types/home_types";
 import { Company } from "@/stores/userStore";
 
 export async function createWorkspace(data: WorkspaceInput) {
@@ -40,7 +40,7 @@ export async function createCompany(data: CompanyInput): Promise<Company> {
   return company;
 }
 
-export async function createItem(data: any) {
+export async function createItem(data: ItemInput) {
   const res = await fetch(`${apiUrl}/onboard/item`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },

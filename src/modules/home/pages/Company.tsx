@@ -19,9 +19,16 @@ export default function CompanyPage() {
   };
 
   return (
-    <div className="h-full p-6">
-      <h1 className="text-2xl font-bold mb-6">Company Profile</h1>
-      <CompanyForm onSubmit={handleSubmit} defaultValues={data} />
+    <div className="h-full grid grid-rows-[auto_1fr] overflow-hidden">
+      {/* Sub Header */}
+      <div className="border-b px-6 py-4">
+        <h1 className="text-2xl font-bold">Company Profile</h1>
+      </div>
+
+      {/* Content Section */}
+      <div className="overflow-y-auto p-6">
+        <CompanyForm onSubmit={handleSubmit} defaultValues={data} />
+      </div>
     </div>
   );
 }

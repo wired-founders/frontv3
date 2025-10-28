@@ -1,11 +1,11 @@
 dev/
+docs/
 # dependencies
 /node_modules
 
 
 # testing
-/coverage
-
+tests/
 # next.js
 /.next/
 /out/
@@ -23,7 +23,8 @@ dev/
 
 # env files (can opt-in for committing if needed)
 .env*
-
+.env.local
+.env.prod
 # vercel
 .vercel
 

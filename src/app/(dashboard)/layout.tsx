@@ -20,6 +20,7 @@ import { UserStoreProvider } from "@/providers/UserStoreProvider";
 
 export default async function AuthLayout({ children }: { children: React.ReactNode }) {
   const result = await checkSession();
+  // console.log('results', result)
 
   if (!result.ok) {
     if (result.status === 401) redirect("/login");
