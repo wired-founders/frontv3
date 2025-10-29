@@ -1,29 +1,7 @@
 // src\modules\analytics\pages\Overview.tsx
 "use client";
-import { useEffect } from "react";
-import { useUserStore } from "@/providers/UserStoreProvider";
-import { fetchSocialAccounts } from "@/lib/api/fetchApi";
-import { toast } from "sonner";
 
 export default function OverviewPage() {
-  const socialAccounts = useUserStore((s) => s.socialAccounts);
-  const accountIds = socialAccounts.map((acc: any) => acc.id).filter(Boolean);
-  if (!accountIds.length) return;
-
-  useEffect(() => {
-    async function loadSocialAccounts() {
-      try {
-        const accounts = await fetchSocialAccounts(accountIds);
-        //console.log("Fetched accounts:", accounts);
-      } catch (error: any) {
-        console.error("Error loading social accounts:", error.message);
-        toast.error(`Failed to load social accounts: ${error.message || "Unknown error"}`);
-      }
-    }
-
-    loadSocialAccounts();
-  }, [socialAccounts]);
-
   return (
     <div className="p-6 space-y-4">
       <h1 className="text-2xl font-semibold">Analytics Overview</h1>

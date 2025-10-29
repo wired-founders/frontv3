@@ -78,8 +78,8 @@ export async function fetchChannelss(accountIds: string[]) {
     throw new Error(`Failed to fetch channels: ${res.status}`);
   }
 
-  const { groups, assets } = await res.json();
-  return { groups, assets };
+  const { groups, assets, entities } = await res.json();
+  return { groups, assets, entities };
 }
 
 export async function fetchSocialAccounts(accountIds: string[]) {

@@ -2,7 +2,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { ChevronLeft, ChevronRight, LayoutDashboard, Building2, Share2, Package, BarChart3 } from "lucide-react";
+import { ChevronLeft, ChevronRight, LayoutDashboard, Building2, Share2, Package } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useHomeNavStore } from "@/stores/useHomeNav";
@@ -23,7 +23,6 @@ export default function Sidebar() {
     { id: "dashboard" as const, icon: LayoutDashboard, label: "Dashboard" },
     { id: "company" as const, icon: Building2, label: "Company" },
     { id: "channels" as const, icon: Share2, label: "Channels" },
-    { id: "analytics" as const, icon: BarChart3, label: "Analytics" },
     { id: "items" as const, icon: Package, label: "Items" },
   ];
 

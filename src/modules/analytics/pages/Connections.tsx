@@ -1,44 +1,50 @@
 // src\modules\analytics\pages\Connections.tsx
 "use client";
 
-import { useState, useMemo } from "react";
-import { toast } from "sonner";
-import { fetchAnalytics } from "@/lib/api/analyticsApi";
-import { useAssetStore , type Asset} from "@/stores/useAssetStore";
-import {Tabs, TabsList, TabsTrigger, Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui";
+import { useState, useMemo, useEffect } from "react";
+import { useAssetStore, type Asset } from "@/stores/useAssetStore";
+import {
+  Tabs,
+  TabsList,
+  TabsTrigger,
+  Accordion,
+  AccordionItem,
+  AccordionTrigger,
+  AccordionContent,
+} from "@/components/ui";
+import { useAnalytics } from "@/hooks/useAnalytics";
+import { useEntityGraph } from "@/stores/useEntityStore";
 
 type Tab = "all" | "organic" | "paid";
 
 export default function ConnectionPage() {
   const [tab, setTab] = useState<Tab>("all");
-  const [busyId, setBusyId] = useState<string | null>(null);
-
   const getByType = useAssetStore((s) => s.getByType);
   const adAccounts = getByType("ad_account");
   const pages = getByType("page");
   const instas = getByType("instagram");
-  const organic = useMemo(() => [...pages, ...instas], [pages, instas]);
+  const whastApp = getByType("whatsapp");
+  const organic = useMemo(() => [...pages, ...instas, ...whastApp], [pages, instas, whastApp]);
   const paid = useMemo(() => [...adAccounts], [adAccounts]);
 
   const showAdAccounts = tab !== "organic" && paid.length > 0;
   const showPages = tab !== "paid" && organic.length > 0;
 
-  async function handleFetch(asset: Asset) {
-    try {
-      setBusyId(asset.id);
+  const [selectedAsset, setSelectedAsset] = useState<Asset | null>(null);
+  const { data, isFetching, isError } = useAnalytics(selectedAsset?.type!, selectedAsset?.externalId || "");
 
-      // dynamically picks the right endpoint & query param
-      const data = await fetchAnalytics(asset.type, asset.externalId);
+  useEffect(() => {
+    if (!selectedAsset?.id || !data) return;
 
-      console.log("Fetched analytics:", data);
-      toast.success("Fetched successfully");
-      // TODO: save or show analytics here
-    } catch (err: any) {
-      toast.error(err?.message || "Failed to fetch");
-    } finally {
-      setBusyId(null);
-    }
-  }
+    const nodes = data.map((c: any) => ({
+      id: c.id, // DB id from your list
+      type: "campaign" as const,
+      assetId: selectedAsset.id, // IMPORTANT: asset DB id, not externalId
+      parentId: null, // campaigns are roots
+    }));
+
+    useEntityGraph.getState().upsertMany(nodes);
+  }, [selectedAsset?.id, data]);
 
   return (
     <div className="h-full grid grid-rows-[auto_1fr] overflow-hidden">
@@ -117,10 +123,10 @@ export default function ConnectionPage() {
                           <span className="truncate">Provider: {acc.provider ?? "facebook"}</span>
                           <button
                             className="opacity-70 underline-offset-2 hover:opacity-100 hover:underline disabled:opacity-40"
-                            disabled={busyId === acc.id}
-                            onClick={() => handleFetch(acc)}
+                            disabled={isFetching && selectedAsset?.id === acc.id}
+                            onClick={() => setSelectedAsset(acc)}
                           >
-                            {busyId === acc.id ? "Fetching…" : "Fetch"}
+                            {isFetching && selectedAsset?.id === acc.id ? "Fetching…" : "Fetch"}
                           </button>
                         </div>
                       </div>
@@ -182,10 +188,10 @@ export default function ConnectionPage() {
                           <span className="truncate">Provider: {pg.provider ?? "facebook"}</span>
                           <button
                             className="opacity-70 underline-offset-2 hover:opacity-100 hover:underline disabled:opacity-40"
-                            disabled={busyId === pg.id}
-                            onClick={() => handleFetch(pg)}
+                            disabled={isFetching && selectedAsset?.id === pg.id}
+                            onClick={() => setSelectedAsset(pg)}
                           >
-                            {busyId === pg.id ? "Fetching…" : "Fetch"}
+                            {isFetching && selectedAsset?.id === pg.id ? "Fetching…" : "Fetch"}
                           </button>
                         </div>
                       </div>

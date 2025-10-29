@@ -2,39 +2,53 @@
 "use client";
 
 import { Button, Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui";
-import { fetchChannelss } from "@/lib/api/fetchApi";
 import { useEffect, useState } from "react";
-import { useUserStore } from "@/providers/UserStoreProvider";
 import { groupByProvider } from "@/utils/utilities";
 import { BusinessAssetsModal } from "@/components/modals/BusinessAssetsModal";
 import { toast } from "sonner";
 import { useAssetStore } from "@/stores/useAssetStore";
 import { useChannels } from "@/hooks/useHome";
+import { useEntityGraph } from "@/stores/useEntityStore";
 
 export default function ChannelsPage() {
-  const { data, isLoading, error } = useChannels();
-  const socialAccounts = useUserStore((s) => s.socialAccounts);
-  const accountIds = socialAccounts.map((a: any) => a?.id).filter(Boolean);
-
-  const [groups, setGroups] = useState<any[]>([]);
   const [selectedBusiness, setSelectedBusiness] = useState<any>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const upsertMany = useAssetStore((s) => s.upsertMany);
   const getByType = useAssetStore((s) => s.getByType);
 
+  const { data, isLoading, error } = useChannels();
+  const groups = data?.groups ?? [];
+  const assets = data?.assets ?? [];
+  const entities = data?.entities ?? [];
+
   useEffect(() => {
-    (async () => {
+    if (assets.length) {
       try {
-        const { groups, assets } = await fetchChannelss(accountIds);
-        //console.log("log", groups);
-        setGroups(groups);
         upsertMany(assets);
-      } catch (err) {
-        console.error(err.message);
-        toast.error("fetch Failed", err.message);
+      } catch (e: any) {
+        toast.error(e?.message || "Failed to cache assets");
       }
-    })();
-  }, []);
+    }
+  }, [assets, upsertMany]);
+
+  useEffect(() => {
+    if (entities.length) {
+      try {
+        const graph = useEntityGraph.getState();
+        graph.upsertMany(entities);
+
+        // Build parent-child links
+        entities.forEach((entity) => {
+          if (entity.parentId) {
+            const siblings = entities.filter((e) => e.parentId === entity.parentId).map((e) => e.id);
+            graph.link(entity.parentId, siblings);
+          }
+        });
+      } catch (e: any) {
+        toast.error(e?.message || "Failed to cache entities");
+      }
+    }
+  }, [entities]);
 
   const handleOpenBusiness = (group: unknown) => {
     setSelectedBusiness(group);
@@ -57,6 +71,8 @@ export default function ChannelsPage() {
               console.log("Ad Accounts:", getByType("ad_account"));
               console.log("Instagram:", getByType("instagram"));
               console.log("WhatsApp:", getByType("whatsapp"));
+              console.log("Entity Graph:", useEntityGraph.getState().byId);
+              console.log("Roots by Asset:", useEntityGraph.getState().rootsByAsset);
             }}
           >
             Log Assets

@@ -3,7 +3,7 @@
 
 import { useHomeNavStore } from "@/stores/useHomeNav";
 import { useUserStore } from "@/providers/UserStoreProvider";
-import { DashboardPage, CompanyPage, ChannelsPage, ItemsPage, AnalyticsPage } from "./pages";
+import { DashboardPage, CompanyPage, ChannelsPage, ItemsPage } from "./pages";
 
 export default function HomePage() {
   const activePage = useHomeNavStore((s) => s.activePage);
@@ -19,8 +19,6 @@ export default function HomePage() {
       return <ChannelsPage />;
     case "items":
       return <ItemsPage />;
-    case "analytics":
-      return <AnalyticsPage />;
     case "dashboard":
     default:
       return <DashboardPage />;

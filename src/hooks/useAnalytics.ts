@@ -16,5 +16,7 @@ export function useAnalytics(type: AssetType, externalId: string) {
     queryKey: ["analytics", type, externalId],
     queryFn: () => fetchAnalytics(type, externalId), 
     enabled: !!externalId, 
+    staleTime: 60_000,          // keeps cache "fresh" for a minute
+    gcTime: 10 * 60_000,  
   });
 }
