@@ -1,4 +1,5 @@
 // src\modules\home\pages\ChannelsPage.tsx
+
 "use client";
 
 import { Button, Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui";
@@ -9,8 +10,10 @@ import { toast } from "sonner";
 import { useAssetStore } from "@/stores/useAssetStore";
 import { useChannels } from "@/hooks/useHome";
 import { useEntityGraph } from "@/stores/useEntityStore";
+import { ConnectChannelsModal } from "@/components/modals/ConnectChannelsModal";
 
 export default function ChannelsPage() {
+  const [open, setOpen] = useState(false);
   const [selectedBusiness, setSelectedBusiness] = useState<any>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const upsertMany = useAssetStore((s) => s.upsertMany);
@@ -20,6 +23,11 @@ export default function ChannelsPage() {
   const groups = data?.groups ?? [];
   const assets = data?.assets ?? [];
   const entities = data?.entities ?? [];
+
+  const handleAddChannelClick = () => {
+    setOpen(true);
+  };
+  const handleConnectClick = async () => {};
 
   useEffect(() => {
     if (assets.length) {
@@ -54,7 +62,6 @@ export default function ChannelsPage() {
     setSelectedBusiness(group);
     setIsModalOpen(true);
   };
-
   const groupedByProvider = groupByProvider(groups);
 
   return (
@@ -78,7 +85,7 @@ export default function ChannelsPage() {
             Log Assets
           </Button>
 
-          <Button size="sm" variant="outline">
+          <Button size="sm" variant="outline" onClick={handleAddChannelClick}>
             + Add
           </Button>
         </div>
@@ -118,6 +125,8 @@ export default function ChannelsPage() {
       </div>
 
       <BusinessAssetsModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} business={selectedBusiness} />
+
+      <ConnectChannelsModal open={open} onOpenChange={setOpen} onConnect={(provider) => console.log(provider)} />
     </div>
   );
 }
