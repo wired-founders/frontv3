@@ -8,6 +8,7 @@ import { useUserStore } from "@/providers/UserStoreProvider";
 import { groupByProvider } from "@/utils/utilities";
 import { BusinessAssetsModal } from "@/components/modals/BusinessAssetsModal";
 import { toast } from "sonner";
+import { useAssetStore } from "@/stores/useAssetStore";
 
 export default function ChannelsPage() {
   const socialAccounts = useUserStore((s) => s.socialAccounts);
@@ -15,36 +16,53 @@ export default function ChannelsPage() {
   const [groups, setGroups] = useState<any[]>([]);
   const [selectedBusiness, setSelectedBusiness] = useState<any>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const upsertMany = useAssetStore((s) => s.upsertMany);
+  const getByType = useAssetStore((s) => s.getByType);
 
   useEffect(() => {
     (async () => {
       try {
-        const groups = await fetchChannelss(accountIds);
+        const { groups, assets } = await fetchChannelss(accountIds);
         //console.log("log", groups);
         setGroups(groups);
+        upsertMany(assets);
       } catch (err) {
         console.error(err.message);
-        toast.error('fetch Failed', err.message)
+        toast.error("fetch Failed", err.message);
       }
     })();
   }, []);
-
 
   const handleOpenBusiness = (group: unknown) => {
     setSelectedBusiness(group);
     setIsModalOpen(true);
   };
-  
+
   const groupedByProvider = groupByProvider(groups);
 
   return (
     <div className="h-full grid grid-rows-[auto_1fr] overflow-hidden">
       <div className="flex items-center justify-between border-b px-4 py-2 bg-neutral-50 dark:bg-neutral-900">
         <h2 className="text-lg font-semibold">Social Accounts</h2>
-        <Button size="sm" variant="outline">
-          + Add
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button
+            size="sm"
+            variant="ghost"
+            onClick={() => {
+              console.log("Businesses:", getByType("business"));
+              console.log("Pages:", getByType("page"));
+              console.log("Ad Accounts:", getByType("ad_account"));
+              console.log("Instagram:", getByType("instagram"));
+              console.log("WhatsApp:", getByType("whatsapp"));
+            }}
+          >
+            Log Assets
+          </Button>
+
+          <Button size="sm" variant="outline">
+            + Add
+          </Button>
+        </div>
       </div>
 
       <div className="p-4 grid items-start gap-4 sm:grid-cols-2 lg:grid-cols-3 auto-rows-min">

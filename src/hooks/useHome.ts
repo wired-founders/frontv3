@@ -13,7 +13,7 @@ export function useCompany() {
     queryKey: ["company", companyId],
     queryFn: getCompany,
     retry: 1,
-    enabled: !!companyId, // Add this - only fetch if companyId exists
+    enabled: !!companyId, 
   });
 }
 

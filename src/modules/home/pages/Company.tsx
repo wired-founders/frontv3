@@ -3,23 +3,30 @@
 
 import CompanyForm from "@/components/forms/CompanyForm";
 import { useCompany, useCreateCompany } from "@/hooks/useHome";
+import { RouteLoading } from "@/components/ui";
+import { CompanyInput } from "@/types/home_types";
+import { toast } from "sonner";
 
 export default function CompanyPage() {
   const { data, isLoading, error } = useCompany();
   const createMutation = useCreateCompany();
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <RouteLoading message="Loading..." />;
   if (error) return <div>Error loading company</div>;
 
-  const handleSubmit = async (formData: any) => {
+  const handleSubmit = async (formData: CompanyInput) => {
     createMutation.mutate(formData, {
-      onSuccess: () => alert("Company created!"),
-      onError: () => alert("Error creating company"),
+      onSuccess: () => {
+        toast.success("Company created successfully!");
+      },
+      onError: (error: any) => {
+        toast.error(error?.message || "Failed to create company.");
+      },
     });
   };
 
   return (
-    <div className="h-full grid grid-rows-[auto_1fr] overflow-hidden">
+    <div className="p-4 h-full grid grid-rows-[auto_1fr] overflow-hidden">
       {/* Sub Header */}
       <div className="border-b px-6 py-4">
         <h1 className="text-2xl font-bold">Company Profile</h1>

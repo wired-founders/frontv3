@@ -14,7 +14,10 @@ export function LoadingLogo() {
     </div>
   );
 }
-
+/**
+ * RouteLoading component
+ * @param message - Text displayed under the loading logo (required)
+ */
 export function RouteLoading({ message }: { message: string }) {
   return (
     <div className="flex flex-col items-center justify-center h-screen space-y-4">

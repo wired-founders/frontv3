@@ -9,7 +9,6 @@ import { apiUrl } from "@/config/env.client";
 import { CompanyInput, Item } from "@/types/home_types";
 import { mockChannelsData } from "./data";
 
-
 export async function getCompany(): Promise<CompanyInput> {
   const response = await fetch(`${apiUrl}/api/company`, {
     credentials: "include",
@@ -79,11 +78,9 @@ export async function fetchChannelss(accountIds: string[]) {
     throw new Error(`Failed to fetch channels: ${res.status}`);
   }
 
-  const { groups } = await res.json();
-  return groups;
+  const { groups, assets } = await res.json();
+return { groups, assets };
 }
-
-
 
 export async function fetchSocialAccounts(accountIds: string[]) {
   if (!accountIds?.length) throw new Error("No account IDs provided");
@@ -92,11 +89,21 @@ export async function fetchSocialAccounts(accountIds: string[]) {
 
   const res = await fetch(`${apiUrl}/api/social-assets?accountIds=${encodeURIComponent(query)}`, {
     method: "GET",
-    credentials: 'include'
-   
+    credentials: "include",
   });
 
   if (!res.ok) throw new Error(`Failed to fetch social accounts: ${res.status}`);
 
   return await res.json();
+}
+
+// src/lib/api/fetchApi.ts
+export async function fetchMockAssets() {
+  const res = await fetch(`${apiUrl}/api/mock/assets`, {
+    credentials: "include",
+  });
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+const { assets } = await res.json();
+  return assets || [];
 }

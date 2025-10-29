@@ -4,7 +4,7 @@
 import { useState, useEffect } from "react";
 import { useUserStore } from "@/providers/UserStoreProvider";
 import { Campaign } from "@/types/home_types";
-
+import { useAssetStore } from "@/stores/useAssetStore";
 function AnalyticsHeader({
   selectedAccountId,
   setSelectedAccountId,
@@ -89,6 +89,9 @@ export default function AnalyticsPage() {
   const [selectedAccountId, setSelectedAccountId] = useState<string>("");
   const [adAccountIds, setAdAccountIds] = useState<string[]>([]);
   const [fetchingAccounts, setFetchingAccounts] = useState(false);
+  const getByType = useAssetStore((s) => s.getByType);
+  const adAccounts = getByType("ad_account");
+  console.log('ad', adAccounts)
 
   const socialAccounts = useUserStore((s) => s.socialAccounts);
   const socialAccountId = socialAccounts[0]?.id;
