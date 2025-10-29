@@ -79,7 +79,7 @@ export async function fetchChannelss(accountIds: string[]) {
   }
 
   const { groups, assets } = await res.json();
-return { groups, assets };
+  return { groups, assets };
 }
 
 export async function fetchSocialAccounts(accountIds: string[]) {
@@ -104,6 +104,6 @@ export async function fetchMockAssets() {
   });
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
-const { assets } = await res.json();
+  const { assets } = await res.json();
   return assets || [];
 }

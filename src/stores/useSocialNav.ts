@@ -1,12 +1,14 @@
 // src\stores\useSocialNav.ts
 import { create } from "zustand";
 
+type PageId = "home" | "accounts" | "posts"| "calendar" | "connect";
+
 type State = {
-  activePage: "accounts" | "posts" | "messages";
-  setActivePage: (page: "accounts" | "posts" | "messages") => void;
+  activePage: PageId;
+  setActivePage: (page: PageId) => void;
 };
 
 export const useSocialNavStore = create<State>((set) => ({
-  activePage: "accounts",
+  activePage: "home", // default
   setActivePage: (page) => set({ activePage: page }),
 }));

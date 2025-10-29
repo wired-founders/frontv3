@@ -1,7 +1,7 @@
 // src\hooks\useHome.ts
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { createCompany } from "@/lib/api/onboardApi";
-import { getCompany, getAssets } from "@/lib/api/fetchApi";
+import { getCompany, getAssets, fetchChannelss } from "@/lib/api/fetchApi";
 import { useUserStore } from "@/providers/UserStoreProvider";
 import { CompanyInput } from "@/types/home_types";
 
@@ -13,7 +13,7 @@ export function useCompany() {
     queryKey: ["company", companyId],
     queryFn: getCompany,
     retry: 1,
-    enabled: !!companyId, 
+    enabled: !!companyId,
   });
 }
 
@@ -30,20 +30,30 @@ export function useCreateCompany() {
     },
   });
 }
-
-export function useAssets() {
+export function useChannels() {
   const socialAccounts = useUserStore((s) => s.socialAccounts);
-  const accountIds = socialAccounts.map((acc) => acc.id);
+  const accountIds = socialAccounts.map((a) => a.id);
 
   return useQuery({
-    queryKey: ["assets", accountIds],
-    queryFn: () => getAssets(accountIds),
-    enabled: accountIds.length > 0,
-    staleTime: 5 * 60 * 1000, // Data fresh for 5 minutes
-    gcTime: 10 * 60 * 1000, // Cache for 10 minutes
-    refetchOnWindowFocus: false, // Don't refetch on tab switch
+    queryKey: ["channels", accountIds],
+    queryFn: () => fetchChannelss(accountIds),
+    enabled: accountIds.length > 0, // prevents empty calls
   });
 }
-// Add more home module queries here
+
+// export function useAssets() {
+//   const socialAccounts = useUserStore((s) => s.socialAccounts);
+//   const accountIds = socialAccounts.map((acc) => acc.id);
+
+//   return useQuery({
+//     queryKey: ["assets", accountIds],
+//     queryFn: () => getAssets(accountIds),
+//     enabled: accountIds.length > 0,
+//     staleTime: 5 * 60 * 1000, // Data fresh for 5 minutes
+//     gcTime: 10 * 60 * 1000, // Cache for 10 minutes
+//     refetchOnWindowFocus: false, // Don't refetch on tab switch
+//   });
+// }
+// // Add more home module queries here
 // export function useWorkspace() { ... }
 // export function useTeam() { ... }

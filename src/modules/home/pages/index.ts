@@ -1,4 +1,4 @@
-// src\app\(dashboard)\home\pages\index.ts
+// src\modules\home\pages\index.ts
 export { default as DashboardPage } from "./Dashboard";
 export { default as CompanyPage } from "./Company";
 export { default as ChannelsPage } from "./ChannelsPage";

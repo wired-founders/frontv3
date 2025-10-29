@@ -2,7 +2,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Users, Share2, MessageSquare, ChevronLeft, ChevronRight } from "lucide-react";
+import { Home, Users,Calendar, Share2, MessageSquare, ChevronLeft, ChevronRight, Plug } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useSocialNavStore } from "@/stores/useSocialNav";
@@ -20,9 +20,13 @@ export default function SocialSidebar() {
   }, [collapsed]);
 
   const links = [
+    { id: "home" as const, icon: Home, label: "Home" },
     { id: "accounts" as const, icon: Users, label: "Accounts" },
     { id: "posts" as const, icon: Share2, label: "Posts" },
+      { id: "calendar" as const, icon: Calendar, label: "Calendar" }, // added
+
     { id: "messages" as const, icon: MessageSquare, label: "Messages" },
+    { id: "connect" as const, icon: Plug, label: "Connect" },
   ];
 
   return (

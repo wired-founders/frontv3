@@ -9,10 +9,13 @@ import { groupByProvider } from "@/utils/utilities";
 import { BusinessAssetsModal } from "@/components/modals/BusinessAssetsModal";
 import { toast } from "sonner";
 import { useAssetStore } from "@/stores/useAssetStore";
+import { useChannels } from "@/hooks/useHome";
 
 export default function ChannelsPage() {
+  const { data, isLoading, error } = useChannels();
   const socialAccounts = useUserStore((s) => s.socialAccounts);
   const accountIds = socialAccounts.map((a: any) => a?.id).filter(Boolean);
+
   const [groups, setGroups] = useState<any[]>([]);
   const [selectedBusiness, setSelectedBusiness] = useState<any>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);

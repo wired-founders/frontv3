@@ -1,24 +1,36 @@
-// src\lib\api\analyticsApi.ts
-// src/api/analytics.ts
 import { apiUrl } from "@/config/env.client";
+import { AssetType } from "@/stores/useAssetStore";
 
-export const getAssets = async () => {
-  const res = await fetch(`${apiUrl}/analytics/assets`, {
-    credentials: 'include', // If using cookies
-  });
-  
-  if (!res.ok) throw new Error('Failed to fetch assets');
-  return res.json();
-};
+export async function fetchAnalytics(type: AssetType, externalId: string) {
+  const pathMap: Record<AssetType, string> = {
+    business: "business",
+    page: "pages",
+    instagram: "instagram",
+    whatsapp: "whatsapp",
+    ad_account: "campaigns",
+  };
 
-export const syncMetrics = async (assetId: string, externalId: string) => {
-  const res = await fetch(`${apiUrl}/analytics/sync-metrics`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    credentials: 'include',
-    body: JSON.stringify({ assetId, externalId })
+  // parameter key per type
+  const paramKeyMap: Record<AssetType, string> = {
+    ad_account: "adAccountId",
+    page: "pageId",
+    instagram: "accountId",
+    business: "businessId",
+    whatsapp: "whatsappId",
+  };
+
+  const path = pathMap[type];
+  const paramKey = paramKeyMap[type];
+  const url = `${apiUrl}/api/analy/${path}?${paramKey}=${encodeURIComponent(externalId)}`;
+
+  const res = await fetch(url, {
+    method: "GET",
+    cache: "no-store",
+    credentials: "include",
   });
-  
-  if (!res.ok) throw new Error('Failed to sync metrics');
-  return res.json();
-};
+
+  if (!res.ok) throw new Error(`Failed (${res.status}) fetching ${type}`);
+
+  const { data } = await res.json();
+  return data;
+}

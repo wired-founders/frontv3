@@ -2,7 +2,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useUserStore } from "@/providers/UserStoreProvider";
 import { Campaign } from "@/types/home_types";
 import { useAssetStore } from "@/stores/useAssetStore";
 function AnalyticsHeader({
@@ -87,36 +86,17 @@ export default function AnalyticsPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [selectedAccountId, setSelectedAccountId] = useState<string>("");
-  const [adAccountIds, setAdAccountIds] = useState<string[]>([]);
   const [fetchingAccounts, setFetchingAccounts] = useState(false);
   const getByType = useAssetStore((s) => s.getByType);
-  const adAccounts = getByType("ad_account");
-  console.log('ad', adAccounts)
+  const [adAccountIds, setAdAccountIds] = useState<string[]>([]);
 
-  const socialAccounts = useUserStore((s) => s.socialAccounts);
-  const socialAccountId = socialAccounts[0]?.id;
+  const adAccounts = getByType("ad_account");
+  console.log("ad", adAccounts);
 
   useEffect(() => {
-    if (socialAccountId) {
-      fetchAdAccounts();
-    }
-  }, [socialAccountId]);
-
-  const fetchAdAccounts = async () => {
-    setFetchingAccounts(true);
-    try {
-      const res = await fetch(`http://localhost:5000/api/ad-accounts?accountIds=${socialAccountId}`, {
-        credentials: "include",
-      });
-      if (!res.ok) throw new Error(`Failed: ${res.status}`);
-      const { adAccountIds } = await res.json();
-      setAdAccountIds(Array.isArray(adAccountIds) ? adAccountIds : []);
-    } catch (err) {
-      console.error("Failed to fetch ad accounts:", err);
-    } finally {
-      setFetchingAccounts(false);
-    }
-  };
+    // just their ids
+    setAdAccountIds(adAccounts.map((a) => a.id));
+  }, [getByType]);
 
   const fetchAnalytics = async () => {
     setLoading(true);
