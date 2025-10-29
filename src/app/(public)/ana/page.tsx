@@ -16,17 +16,50 @@ const faq = [
 
 export default function AnaPage() {
   return (
-    <div className="p-6 max-w-md mx-auto">
-      <h2 className="text-lg font-semibold mb-4">Accordion Example</h2>
+    <div
+      className="min-h-screen p-6 flex flex-col items-center justify-start"
+      style={{
+        backgroundColor: "#0e0e10", // base background (not pure black)
+        color: "#e4e4e7", // soft white
+        fontFamily: "Inter, sans-serif",
+      }}
+    >
+      <div
+        className="w-full max-w-md p-6 rounded-2xl shadow-lg"
+        style={{
+          backgroundColor: "#18181b", // card background
+          border: "1px solid rgba(255,255,255,0.05)",
+        }}
+      >
+        <h2 className="text-lg font-semibold mb-4 text-white/90">Accordion Example</h2>
 
-      <Accordion type="multiple">
-        {faq.map((item) => (
-          <AccordionItem key={item.id} value={item.id}>
-            <AccordionTrigger>{item.question}</AccordionTrigger>
-            <AccordionContent>{item.answer}</AccordionContent>
-          </AccordionItem>
-        ))}
-      </Accordion>
+        <Accordion type="multiple">
+          {faq.map((item) => (
+            <AccordionItem
+              key={item.id}
+              value={item.id}
+              className="border-b border-white/10"
+            >
+              <AccordionTrigger
+                className="text-sm font-medium text-white/80 hover:text-white transition-colors"
+                style={{
+                  padding: "0.75rem 0",
+                }}
+              >
+                {item.question}
+              </AccordionTrigger>
+              <AccordionContent
+                className="text-sm text-gray-400 leading-relaxed"
+                style={{
+                  paddingBottom: "0.75rem",
+                }}
+              >
+                {item.answer}
+              </AccordionContent>
+            </AccordionItem>
+          ))}
+        </Accordion>
+      </div>
     </div>
   );
 }

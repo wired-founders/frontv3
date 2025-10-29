@@ -1,5 +1,10 @@
 // src\modules\home\pages\ChannelsPage.tsx
-
+/**
+ 1. handleAddChannelClick
+ 2. handleConnectClick
+ 3. load useChannels() when rendering
+ 4. 
+ */
 "use client";
 
 import { Button, Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui";
@@ -10,24 +15,30 @@ import { toast } from "sonner";
 import { useAssetStore } from "@/stores/useAssetStore";
 import { useChannels } from "@/hooks/useHome";
 import { useEntityGraph } from "@/stores/useEntityStore";
-import { ConnectChannelsModal } from "@/components/modals/ConnectChannelsModal";
+import { ConnectChannelsModal, type Provider } from "@/components/modals/ConnectChannelsModal";
+import { connectChannel } from "@/lib/api/onboardApi";
 
 export default function ChannelsPage() {
   const [open, setOpen] = useState(false);
-  const [selectedBusiness, setSelectedBusiness] = useState<any>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const upsertMany = useAssetStore((s) => s.upsertMany);
-  const getByType = useAssetStore((s) => s.getByType);
-
+  
   const { data, isLoading, error } = useChannels();
   const groups = data?.groups ?? [];
   const assets = data?.assets ?? [];
   const entities = data?.entities ?? [];
 
+
+
+  const [selectedBusiness, setSelectedBusiness] = useState<any>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const upsertMany = useAssetStore((s) => s.upsertMany);
+  const getByType = useAssetStore((s) => s.getByType);
+
   const handleAddChannelClick = () => {
     setOpen(true);
   };
-  const handleConnectClick = async () => {};
+  const handleConnectClick = async (platform: Provider) => {
+    await connectChannel(platform);
+  };
 
   useEffect(() => {
     if (assets.length) {
@@ -126,7 +137,7 @@ export default function ChannelsPage() {
 
       <BusinessAssetsModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} business={selectedBusiness} />
 
-      <ConnectChannelsModal open={open} onOpenChange={setOpen} onConnect={(provider) => console.log(provider)} />
+      <ConnectChannelsModal open={open} onOpenChange={setOpen} onConnect={handleConnectClick} />
     </div>
   );
 }

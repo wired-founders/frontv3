@@ -1,11 +1,11 @@
-// src/components/modals/ConnectChannelsModal.tsx
+// src\components\modals\ConnectChannelsModal.tsx
 "use client";
 
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Facebook, Instagram, Linkedin, Youtube } from "lucide-react";
 
-type Provider = "facebook" | "instagram" | "linkedin" | "youtube";
+export type Provider = "facebook" | "instagram" | "linkedin" | "youtube";
 
 type Props = {
   open: boolean;
@@ -14,6 +14,7 @@ type Props = {
 };
 
 export function ConnectChannelsModal({ open, onOpenChange, onConnect }: Props) {
+  
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-lg">

@@ -4,14 +4,14 @@
 import { useUserStore } from "@/providers/UserStoreProvider";
 
 export default function DashboardPage() {
-  const email = useUserStore((s) => s.user?.email);
+  const name = useUserStore((s) => s.user?.name);
 
   return (
     <div className="h-full grid grid-rows-[auto_1fr] overflow-hidden">
       {/* Sub Header */}
       <div className="border-b px-6 py-4">
         <h1 className="text-2xl font-bold">Dashboard</h1>
-        <p className="text-sm text-muted-foreground mt-1">Welcome back, {email}</p>
+        <p className="text-sm text-muted-foreground mt-1">Welcome back, {name}</p>
       </div>
 
       {/* Content Section */}

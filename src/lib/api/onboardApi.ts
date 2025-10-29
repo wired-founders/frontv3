@@ -2,6 +2,7 @@
 import { apiUrl } from "@/config/env.client";
 import { WorkspaceInput, CompanyInput, ItemInput } from "@/types/home_types";
 import { Company } from "@/stores/userStore";
+import { Provider } from "@/components/modals/ConnectChannelsModal";
 
 export async function createWorkspace(data: WorkspaceInput) {
   try {
@@ -25,6 +26,9 @@ export async function createWorkspace(data: WorkspaceInput) {
     throw new Error(message);
   }
 }
+export const connectChannel = async (platform: Provider) => {
+  window.location.assign(`${apiUrl}/connect/${platform}`);
+};
 
 export async function createCompany(data: CompanyInput): Promise<Company> {
   const res = await fetch(`${apiUrl}/onboard/company`, {
