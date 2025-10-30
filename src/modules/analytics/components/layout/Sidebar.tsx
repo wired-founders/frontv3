@@ -9,10 +9,8 @@ import { useAnalyticsNav } from "@/stores/useAnalyticsNav";
 
 const sections = [
   { id: "overview", label: "Overview" },
-  { id: "paid", label: "Paid" },
   { id: "organic", label: "Organic Insights" },
   { id: "campaigns", label: "Paid Insights" },
-  { id: "reports", label: "Reports" },
   { id: "connect", label: "Connect" },
 ];
 

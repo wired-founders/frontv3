@@ -4,16 +4,16 @@
 import { useState } from "react";
 import { apiUrl } from "@/config/env.client";
 import {
+  Button,
+  Label,
+  Input,
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+} from "@/components/ui";
 
 export function PasswordResetModal() {
   const [open, setOpen] = useState(false);
@@ -37,8 +37,7 @@ export function PasswordResetModal() {
 
       const data = await res.json();
 
-      if (!res.ok)
-        throw new Error(data.message || "Failed to send reset email");
+      if (!res.ok) throw new Error(data.message || "Failed to send reset email");
 
       setMessage("Password reset email sent. Check your inbox.");
       setTimeout(() => setOpen(false), 2000);
@@ -59,9 +58,7 @@ export function PasswordResetModal() {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Reset Password</DialogTitle>
-          <DialogDescription>
-            Enter your email to receive a password reset link.
-          </DialogDescription>
+          <DialogDescription>Enter your email to receive a password reset link.</DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>

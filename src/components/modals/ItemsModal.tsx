@@ -3,14 +3,14 @@
 
 import { useState } from "react";
 import {
+  Button,
   Dialog,
   DialogTrigger,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogDescription,
-} from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
+} from "@/components/ui";
 import ItemsForm from "@/components/forms/ItemsForm";
 import { ItemInput } from "@/types/home_types";
 
@@ -18,16 +18,29 @@ type Props = {
   onCreate: (values: ItemInput) => Promise<void>;
   submitting: boolean;
   error?: string | null;
+  // controlled (optional)
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
 };
 
-export default function ItemsModal({ onCreate, submitting, error }: Props) {
-  const [open, setOpen] = useState(false);
+export default function ItemsModal({
+  onCreate,
+  submitting,
+  error,
+  open: controlledOpen,
+  onOpenChange,
+}: Props) {
+  // uncontrolled fallback
+  const [uncontrolledOpen, setUncontrolledOpen] = useState(false);
   const [formKey, setFormKey] = useState(0);
+
+  const open = controlledOpen ?? uncontrolledOpen;
+  const setOpen = onOpenChange ?? setUncontrolledOpen;
 
   const handleSubmit = async (values: ItemInput) => {
     await onCreate(values);
     setOpen(false);
-    setFormKey(k => k + 1); // reset form
+    setFormKey((k) => k + 1); // reset form
   };
 
   return (

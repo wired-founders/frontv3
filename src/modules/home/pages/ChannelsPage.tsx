@@ -1,98 +1,41 @@
 // src\modules\home\pages\ChannelsPage.tsx
 /**
- 1. handleAddChannelClick
- 2. handleConnectClick
- 3. load useChannels() when rendering
- 4. 
+ 1. handleAddChannelClick() -> Open ConnectChannelsModal -> Click connect -> handleConnectClick -> Api Redirect Backend
+ 2. When page rendering -> useChannels() if(adAccountIds) -> fetchChannels() -> Api Backend @returns {groups, assets, entities}
+ 3. groups ->  groupedByProvider() -> Show connected platforms 
+ 4. assets -> useEffect (upsertMany(assets))
+ 5. entities -> useEffect(graph.upsertMany(entities)) & link entities
+ 6. 
  */
 "use client";
 
 import { Button, Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui";
-import { useEffect, useState } from "react";
-import { groupByProvider } from "@/utils/utilities";
-import { BusinessAssetsModal } from "@/components/modals/BusinessAssetsModal";
-import { toast } from "sonner";
-import { useAssetStore } from "@/stores/useAssetStore";
-import { useChannels } from "@/hooks/useHome";
-import { useEntityGraph } from "@/stores/useEntityStore";
-import { ConnectChannelsModal, type Provider } from "@/components/modals/ConnectChannelsModal";
-import { connectChannel } from "@/lib/api/onboardApi";
+import { ConnectChannelsModal,BusinessAssetsModal } from "@/components/modals";
+import { useChannelsPage } from "./hooks/useChannelsPage";
 
 export default function ChannelsPage() {
-  const [open, setOpen] = useState(false);
-  
-  const { data, isLoading, error } = useChannels();
-  const groups = data?.groups ?? [];
-  const assets = data?.assets ?? [];
-  const entities = data?.entities ?? [];
+  const {
+    handleAddChannelClick,
+    handleConnectClick,
 
+    open,
+    setOpen,
+    isModalOpen,
+    setIsModalOpen,
 
+    selectedBusiness,
+    groupedByProvider,
 
-  const [selectedBusiness, setSelectedBusiness] = useState<any>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const upsertMany = useAssetStore((s) => s.upsertMany);
-  const getByType = useAssetStore((s) => s.getByType);
-
-  const handleAddChannelClick = () => {
-    setOpen(true);
-  };
-  const handleConnectClick = async (platform: Provider) => {
-    await connectChannel(platform);
-  };
-
-  useEffect(() => {
-    if (assets.length) {
-      try {
-        upsertMany(assets);
-      } catch (e: any) {
-        toast.error(e?.message || "Failed to cache assets");
-      }
-    }
-  }, [assets, upsertMany]);
-
-  useEffect(() => {
-    if (entities.length) {
-      try {
-        const graph = useEntityGraph.getState();
-        graph.upsertMany(entities);
-
-        // Build parent-child links
-        entities.forEach((entity) => {
-          if (entity.parentId) {
-            const siblings = entities.filter((e) => e.parentId === entity.parentId).map((e) => e.id);
-            graph.link(entity.parentId, siblings);
-          }
-        });
-      } catch (e: any) {
-        toast.error(e?.message || "Failed to cache entities");
-      }
-    }
-  }, [entities]);
-
-  const handleOpenBusiness = (group: unknown) => {
-    setSelectedBusiness(group);
-    setIsModalOpen(true);
-  };
-  const groupedByProvider = groupByProvider(groups);
+    handleOpenBusiness,
+    handleLogAssets,
+  } = useChannelsPage();
 
   return (
     <div className="h-full grid grid-rows-[auto_1fr] overflow-hidden">
       <div className="flex items-center justify-between border-b px-4 py-2 bg-neutral-50 dark:bg-neutral-900">
         <h2 className="text-lg font-semibold">Social Accounts</h2>
         <div className="flex items-center gap-2">
-          <Button
-            size="sm"
-            variant="ghost"
-            onClick={() => {
-              console.log("Businesses:", getByType("business"));
-              console.log("Pages:", getByType("page"));
-              console.log("Ad Accounts:", getByType("ad_account"));
-              console.log("Instagram:", getByType("instagram"));
-              console.log("WhatsApp:", getByType("whatsapp"));
-              console.log("Entity Graph:", useEntityGraph.getState().byId);
-              console.log("Roots by Asset:", useEntityGraph.getState().rootsByAsset);
-            }}
-          >
+          <Button size="sm" variant="ghost" onClick={handleLogAssets}>
             Log Assets
           </Button>
 
@@ -109,7 +52,7 @@ export default function ChannelsPage() {
               <AccordionTrigger className="px-3 py-2 text-sm font-medium capitalize">{provider}</AccordionTrigger>
               <AccordionContent className="px-3 pb-3 text-sm">
                 <div className="space-y-2">
-                  {providerGroups.map((group) => (
+                  {providerGroups.map((group: any) => (
                     <div
                       key={group.business.id}
                       className="flex justify-between items-center py-2 px-3 hover:bg-gray-50 dark:hover:bg-gray-800 rounded border"
@@ -135,9 +78,8 @@ export default function ChannelsPage() {
         ))}
       </div>
 
-      <BusinessAssetsModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} business={selectedBusiness} />
-
       <ConnectChannelsModal open={open} onOpenChange={setOpen} onConnect={handleConnectClick} />
+      <BusinessAssetsModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} business={selectedBusiness} />
     </div>
   );
 }

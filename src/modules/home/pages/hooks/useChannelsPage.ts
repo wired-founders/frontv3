@@ -1,36 +1,44 @@
-// src/modules/home/pages/ChannelsPage/useChannelsPage.ts
+// src\modules\home\pages\hooks\useChannelsPage.ts
+
+
+/**
+ 1. handleAddChannelClick   | handleLogAssets
+ 2. handleConnectClick
+ 3. Page renters ->  load useChannels() if (adAccountIds)  -> fetchChannels() -> Api Backend @returns {groups, assets, entities}
+ 4. 
+ */
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useAssetStore } from "@/stores/useAssetStore";
 import { useChannels } from "@/hooks/useHome";
 import { useEntityGraph } from "@/stores/useEntityStore";
 import { connectChannel } from "@/lib/api/onboardApi";
-import { groupByProvider } from "@/utils/utilities";
 import type { Provider } from "@/components/modals/ConnectChannelsModal";
 
 export function useChannelsPage() {
   const [open, setOpen] = useState(false);
   const [selectedBusiness, setSelectedBusiness] = useState<any>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  
-  const { data, isLoading, error } = useChannels();
+
   const upsertMany = useAssetStore((s) => s.upsertMany);
   const getByType = useAssetStore((s) => s.getByType);
+  const { data} = useChannels();
 
-  const groups = data?.groups ?? [];
+  const groupedByProvider  = data?.groups ?? [];
   const assets = data?.assets ?? [];
   const entities = data?.entities ?? [];
 
+
   // Cache assets
-  useEffect(() => {
-    if (assets.length) {
-      try {
-        upsertMany(assets);
-      } catch (e: any) {
-        toast.error(e?.message || "Failed to cache assets");
-      }
-    }
-  }, [assets, upsertMany]);
+useEffect(() => {
+  if (!Array.isArray(assets) || assets.length === 0) return;
+  
+  try {
+    upsertMany(assets);
+  } catch (e: any) {
+    toast.error(e?.message || "Failed to cache assets");
+  }
+}, [assets, upsertMany]);
 
   // Cache entities
   useEffect(() => {
@@ -51,7 +59,7 @@ export function useChannelsPage() {
   }, [entities]);
 
   const handleAddChannelClick = () => setOpen(true);
-  
+
   const handleConnectClick = async (platform: Provider) => {
     await connectChannel(platform);
   };
@@ -70,8 +78,6 @@ export function useChannelsPage() {
     console.log("Entity Graph:", useEntityGraph.getState().byId);
     console.log("Roots by Asset:", useEntityGraph.getState().rootsByAsset);
   };
-
-  const groupedByProvider = groupByProvider(groups);
 
   return {
     open,

@@ -1,4 +1,4 @@
-// src\components\DashboardShell.tsx
+// src\components\layout\dashboard\DashboardShell.tsx
 
 type Props = {
   sidebar: React.ReactNode;

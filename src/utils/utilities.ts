@@ -48,13 +48,3 @@ export function addGroupCounts(groups: BusinessGroup[]): BusinessGroup[] {
   });
 }
 
-export function groupByProvider(groups: any[]) {
-  return groups.reduce(
-    (acc, group) => {
-      if (!acc[group.provider]) acc[group.provider] = [];
-      acc[group.provider].push(group);
-      return acc;
-    },
-    {} as Record<string, any[]>
-  );
-}

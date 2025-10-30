@@ -22,19 +22,19 @@ export default function Sidebar() {
   const links = [
     { id: "dashboard" as const, icon: LayoutDashboard, label: "Dashboard" },
     { id: "company" as const, icon: Building2, label: "Company" },
-    { id: "channels" as const, icon: Share2, label: "Channels" },
     { id: "items" as const, icon: Package, label: "Items" },
+    { id: "channels" as const, icon: Share2, label: "Channels" },
   ];
 
   return (
-    <div className="border-r bg-background transition-all duration-300 h-full">
+    <div className="border-r border-sidebar-border bg-sidebar text-sidebar-foreground transition-all duration-300 h-full">
       <div className="flex h-14 items-center justify-end px-3 border-b">
         <Button variant="ghost" size="icon" onClick={() => setCollapsed(!collapsed)}>
           {collapsed ? <ChevronRight /> : <ChevronLeft />}
         </Button>
       </div>
 
-      <nav className="space-y-1 p-2">
+      <nav className="space-y-0.5 p-1.5">
         {links.map((link) => {
           const Icon = link.icon;
           const isActive = activePage === link.id;
@@ -44,11 +44,17 @@ export default function Sidebar() {
               key={link.id}
               onClick={() => setActivePage(link.id)}
               className={cn(
-                "flex w-full items-center gap-3 rounded-lg px-3 py-2 transition-colors",
+                // height + tighter padding
+                "flex w-full items-center h-8 px-2 py-0.5",
+                // compact spacing + radius + text
+                "gap-2 rounded-md text-[13px] leading-tight",
+                // faster hover feel
+                "transition-colors duration-200",
+                // states
                 isActive ? "bg-primary text-primary-foreground" : "hover:bg-muted"
               )}
             >
-              <Icon className="h-5 w-5 shrink-0" />
+              <Icon className="h-4 w-4 shrink-0" />
               {!collapsed && <span>{link.label}</span>}
             </button>
           );

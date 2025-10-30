@@ -1,4 +1,7 @@
 // src\modules\analytics\pages\Connections.tsx
+/**
+ 1. Reading Assets ids from useAssetStore 
+ */
 "use client";
 
 import { useState, useMemo, useEffect } from "react";
@@ -46,12 +49,16 @@ export default function ConnectionPage() {
     useEntityGraph.getState().upsertMany(nodes);
   }, [selectedAsset?.id, data]);
 
+  function handleTabChange(value: string) {
+    setTab(value as Tab);
+  }
+
   return (
     <div className="h-full grid grid-rows-[auto_1fr] overflow-hidden">
       {/* Header with Tabs */}
       <div className="flex items-center justify-between border-b px-4 py-2 bg-neutral-50 dark:bg-neutral-900">
         <h2 className="text-lg font-semibold">Connected Entities</h2>
-        <Tabs defaultValue="all" value={tab} onValueChange={(v) => setTab(v as Tab)} className="w-auto">
+        <Tabs defaultValue="all" value={tab} onValueChange={handleTabChange} className="w-auto">
           <TabsList className="bg-transparent border rounded-md">
             <TabsTrigger
               value="all"

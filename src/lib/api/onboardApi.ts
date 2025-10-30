@@ -1,4 +1,9 @@
 // src\lib\api\onboardApi.ts
+/**
+ 1. createWorkspace
+ 2. createCompany
+ 3. connectChannel
+ */
 import { apiUrl } from "@/config/env.client";
 import { WorkspaceInput, CompanyInput, ItemInput } from "@/types/home_types";
 import { Company } from "@/stores/userStore";
@@ -26,9 +31,6 @@ export async function createWorkspace(data: WorkspaceInput) {
     throw new Error(message);
   }
 }
-export const connectChannel = async (platform: Provider) => {
-  window.location.assign(`${apiUrl}/connect/${platform}`);
-};
 
 export async function createCompany(data: CompanyInput): Promise<Company> {
   const res = await fetch(`${apiUrl}/onboard/company`, {
@@ -43,7 +45,9 @@ export async function createCompany(data: CompanyInput): Promise<Company> {
   //console.log("company api", company);
   return company;
 }
-
+export const connectChannel = async (platform: Provider) => {
+  window.location.assign(`${apiUrl}/connect/${platform}`);
+};
 export async function createItem(data: ItemInput) {
   const res = await fetch(`${apiUrl}/onboard/item`, {
     method: "POST",

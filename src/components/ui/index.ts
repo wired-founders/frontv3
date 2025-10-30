@@ -24,3 +24,4 @@ export * from './accordion'
 
 // Custom
 //export * from "./BarChart";
+export * from './sidebar'

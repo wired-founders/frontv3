@@ -4,11 +4,7 @@ import { redirect } from "next/navigation";
 import { checkSession } from "@/lib/api/serverAuthApi";
 import { Header } from "@/components/layout/public/Header";
 
-export default async function OnboardLayout({
-  children,
-}: {
-  children: ReactNode;
-}) {
+export default async function OnboardLayout({ children }: { children: ReactNode }) {
   const session = await checkSession();
 
   if (!session || !session.ok) {

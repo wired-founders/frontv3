@@ -25,7 +25,6 @@ import {
   DropdownMenuSubContent,
   Button,
   Avatar,
-  AvatarImage,
   AvatarFallback,
 } from "@/components/ui";
 import { useUserStore } from "@/providers/UserStoreProvider";
@@ -92,7 +91,9 @@ export default function Header({ onLogout }: HeaderProps) {
                 key={item.href}
                 href={item.href}
                 className={`text-sm px-3 py-1.5 rounded transition-colors ${
-                  active ? "bg-blue-600 text-white" : "text-gray-600 hover:bg-gray-100"
+                  active
+                    ? "bg-primary text-primary-foreground font-medium"
+                    : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
                 }`}
               >
                 {item.label}
@@ -105,21 +106,12 @@ export default function Header({ onLogout }: HeaderProps) {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="h-9 px-2">
-              <div className="rounded-full bg-blue-600 p-[2px]">
-                <Avatar className="h-7 w-7">
-                  {imageUrl && (
-                    <Image
-                      src={imageUrl}
-                      alt="User avatar"
-                      width={28}
-                      height={28}
-                      className="rounded-full"
-                      unoptimized
-                    />
-                  )}
-                  <AvatarFallback className="text-xs text-white bg-blue-600">{initials}</AvatarFallback>
-                </Avatar>
-              </div>
+              <Avatar className="h-7 w-7 ring-2 ring-primary">
+                {imageUrl && (
+                  <Image src={imageUrl} alt="User avatar" width={28} height={28} className="rounded-full" unoptimized />
+                )}
+                <AvatarFallback className="text-xs bg-primary text-primary-foreground">{initials}</AvatarFallback>
+              </Avatar>
             </Button>
           </DropdownMenuTrigger>
 
@@ -173,7 +165,7 @@ export default function Header({ onLogout }: HeaderProps) {
             </DropdownMenuGroup>
 
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={handleLogout} className="text-red-600 focus:text-red-600">
+            <DropdownMenuItem onClick={handleLogout} className="text-destructive focus:text-destructive">
               <LogOut className="mr-2 h-4 w-4" />
               <span>Log out</span>
               <DropdownMenuShortcut>⌘L</DropdownMenuShortcut>

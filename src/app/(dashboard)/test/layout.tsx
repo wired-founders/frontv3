@@ -1,5 +1,5 @@
 // src\app\(dashboard)\test\layout.tsx
-import DashboardShell from "@/components/DashboardShell";
+import DashboardShell from "@/components/layout/dashboard/DashboardShell";
 import Sidebar from "@/modules/home/components/layout/Sidebar";
 import { QueryProvider } from "@/providers/QueryProvider";
 

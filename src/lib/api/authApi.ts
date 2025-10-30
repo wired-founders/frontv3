@@ -2,23 +2,21 @@
 
 /**
  * Authentication API functions
- * 
+ *
  * Functions:
- * - signUp: Creates new user account
- * - signIn: Authenticates existing user
+ * - signUp: Google & Email
+ * - login: Authenticates existing user
  * - logOut: Ends user session
  * - resetPassword: Updates password after reset
  */
 
 import { apiUrl } from "@/config/env.client";
 
-export async function signUp(data: {
-  name: string;
-  email: string;
-  password: string;
-}) {
+export function handleGoogleSignup() {
+  window.location.href = `${apiUrl}/auth/google-signup`;
+}
+export async function handleEmailSignup(data: { name: string; email: string; password: string }) {
   try {
-    
     const res = await fetch(`${apiUrl}/auth/signup-email`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -38,8 +36,10 @@ export async function signUp(data: {
     throw new Error(message);
   }
 }
-
-export async function signIn(data: { email: string; password: string }) {
+export function handleGoogleLogin() {
+  window.open(`${apiUrl}/auth/google-login`, "_self");
+}
+export async function handleEmailLogin(data: { email: string; password: string }) {
   try {
     const res = await fetch(`${apiUrl}/auth/login-email`, {
       method: "POST",
@@ -70,7 +70,6 @@ export async function logOut() {
   if (!res.ok) throw new Error("Logout failed");
 }
 
-
 export const resetPassword = async (password: string) => {
   const res = await fetch(`${apiUrl}/auth/password-reset/confirm`, {
     method: "POST",
@@ -85,4 +84,3 @@ export const resetPassword = async (password: string) => {
 
   return data;
 };
-

@@ -1,4 +1,9 @@
 // src\modules\home\pages\Company.tsx
+/**
+ 1. Fill CompanyForm -> handleSubmit() -> useCreateCompany() -> createCompany() -> Api backend @returns Company
+    - onSuccess setCompany()
+ 2. Page render -> useCompany() -> if(comapnyId) -> getCompany() -> defaultValues(company data)
+ */
 "use client";
 
 import CompanyForm from "@/components/forms/CompanyForm";

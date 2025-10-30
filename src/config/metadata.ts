@@ -1,7 +1,17 @@
 // src\config\metadata.ts
-import type { Metadata } from "next";
 
+/**
+ 1. Browser Tab()
+    - icon      [svg, png]    32×32 or scalable SVG
+    - shortcut  [.ico]        16×16 or 32×32
+    - apple     [.png]        180×180
+ 2. openGraph
+ 3. twitter
+ */
+import type { Metadata } from "next";
+import { clientUrl } from "@/config/env.client";
 export const siteMetadata: Metadata = {
+  metadataBase: new URL(clientUrl),
   title: "Kordor AI",
   description: "AI tools for smarter marketing decisions",
   icons: {
