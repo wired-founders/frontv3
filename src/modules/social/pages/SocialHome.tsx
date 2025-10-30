@@ -1,4 +1,4 @@
-// src/modules/social/pages/SocialHome.tsx
+// src\modules\social\pages\SocialHome.tsx
 "use client";
 
 export default function SocialHome() {
