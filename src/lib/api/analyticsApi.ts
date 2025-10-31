@@ -1,8 +1,9 @@
 // src\lib\api\analyticsApi.ts
 import { apiUrl } from "@/config/env.client";
 import { AssetType } from "@/stores/useAssetStore";
+import { CampaignDTO } from "@/types/analyticsTypes";
 
-export async function fetchAnalytics(type: AssetType, externalId: string) {
+export async function fetchAnalytics(type: AssetType, externalId: string): Promise<CampaignDTO[]> {
   const pathMap: Record<AssetType, string> = {
     business: "business",
     page: "pages",

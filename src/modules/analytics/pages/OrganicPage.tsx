@@ -1,12 +1,56 @@
 // src\modules\analytics\pages\OrganicPage.tsx
+import { useUserStore } from "@/providers/UserStoreProvider";
+import { useAssetStore } from "@/stores/useAssetStore";
+
 export default function OrganicPage() {
+  const getByType = useAssetStore((s) => s.getByType);
+  const adAccounts = getByType("ad_account");
+  const companyId = useUserStore((s) => s.company?.id);
+
+  const handleAddInsight = async () => {
+    // You can perform any actions here, like opening a modal or making an API call
+    console.log("Adding insight for company ID:", companyId);
+    // Example: Open modal or navigate to a new page, etc.
+  };
   return (
-    <div className="p-4 h-full grid grid-rows-[auto_1fr] overflow-hidden bg-gray-200">
-      <div className="flex items-center justify-between border-b px-4 py-2 bg-neutral-50 dark:bg-neutral-900">
-        <h2 className="text-lg font-semibold">Campaigns</h2>
-        <button className="text-sm text-blue-600 hover:underline">+ Add Campaign</button>
+    <div className="p-6 h-full bg-gray-100 dark:bg-gray-900">
+      {/* Subheader Section */}
+      <div className="flex items-center justify-between border-b pb-3 mb-6 bg-neutral-50 dark:bg-neutral-900">
+        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">Organic Insights</h2>
+        <button
+          onClick={handleAddInsight}
+          className="text-sm text-blue-600 font-semibold hover:underline focus:outline-none focus:ring-2 focus:ring-blue-600 dark:text-blue-400"
+        >
+          + Add Insight
+        </button>
       </div>
-      <div>Main</div>
+
+      {/* Main Content Section */}
+      <div className="space-y-6">
+        {/* Insight Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* Insight Card 1 */}
+          <div className="p-4 border rounded-lg bg-white dark:bg-neutral-800 shadow-sm hover:shadow-md transition-shadow duration-300">
+            <h3 className="font-semibold text-lg text-gray-900 dark:text-white">Traffic Overview</h3>
+            <p className="text-sm text-gray-500 dark:text-gray-300">Total Visits: 12,300</p>
+            <p className="text-sm text-gray-500 dark:text-gray-300">New Visitors: 8,200</p>
+          </div>
+
+          {/* Insight Card 2 */}
+          <div className="p-4 border rounded-lg bg-white dark:bg-neutral-800 shadow-sm hover:shadow-md transition-shadow duration-300">
+            <h3 className="font-semibold text-lg text-gray-900 dark:text-white">Engagement</h3>
+            <p className="text-sm text-gray-500 dark:text-gray-300">Average Time on Page: 2m 30s</p>
+            <p className="text-sm text-gray-500 dark:text-gray-300">Bounce Rate: 45%</p>
+          </div>
+
+          {/* Insight Card 3 */}
+          <div className="p-4 border rounded-lg bg-white dark:bg-neutral-800 shadow-sm hover:shadow-md transition-shadow duration-300">
+            <h3 className="font-semibold text-lg text-gray-900 dark:text-white">Conversions</h3>
+            <p className="text-sm text-gray-500 dark:text-gray-300">Conversion Rate: 3.5%</p>
+            <p className="text-sm text-gray-500 dark:text-gray-300">Total Conversions: 430</p>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

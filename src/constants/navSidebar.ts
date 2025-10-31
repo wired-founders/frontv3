@@ -22,7 +22,7 @@ export const HOME_NAV_LINKS = [
 
 export const ANALYTICS_NAV_LINKS = [
   { id: "overview" as const, icon: BarChart3, label: "Overview" },
-  { id: "organic" as const, icon: LineChart, label: "Organic Insights" },
+  { id: "organic" as const, icon: LineChart, label: "Organic Insights", hasDropdown: true },
   { id: "campaigns" as const, icon: TrendingUp, label: "Paid Insights", hasDropdown: true },
   { id: "connect" as const, icon: Plug, label: "Connect" },
 ];

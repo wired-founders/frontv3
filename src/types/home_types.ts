@@ -85,25 +85,6 @@ export type ChannelsResponse = {
   entities: Entities;
 };
 
-export type Campaign = {
-  id: string;
-  assetId: string;
-  provider: string;
-  externalId: string;
-  entityType: string;
-  parentId: string | null;
-  name: string;
-  status: string;
-  objective: string;
-  metadata: Record<string, unknown>;
-  createdAt: string;
-  updatedAt: string;
-};
 
 
 
-export type BusinessGroup = {
-  business: Asset;
-  children: Asset[];
-  counts?: Record<string, number>;
-};
