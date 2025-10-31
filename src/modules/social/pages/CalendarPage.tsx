@@ -8,14 +8,14 @@ import interactionPlugin from "@fullcalendar/interaction";
 import { Button } from "@/components/ui/button";
 
 export default function CalendarPage() {
-  const [events, setEvents] = useState([
+  const [events] = useState([
     { id: "1", title: "Facebook Post - Product Launch", date: "2025-10-25" },
     { id: "2", title: "Instagram Reel - Teaser", date: "2025-10-27" },
     { id: "3", title: "LinkedIn Update - Blog Share", date: "2025-10-28" },
   ]);
 
-  function handleDateClick(info: any) {
-    alert(`Clicked date: ${info.dateStr}`);
+  function handleDateClick(info: unknown) {
+    alert(`Clicked date: ${info}`);
   }
 
   return (

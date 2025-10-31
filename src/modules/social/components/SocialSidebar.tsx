@@ -1,44 +1,44 @@
-// src\modules\social\components\Sidebar.tsx
+// src\modules\social\components\SocialSidebar.tsx
 "use client";
 
 import { useState, useEffect } from "react";
-import { Home, Users,Calendar, Share2, MessageSquare, ChevronLeft, ChevronRight, Plug } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Button } from "@/components/ui";
 import { cn } from "@/lib/utils";
 import { useSocialNavStore } from "@/stores/useSocialNav";
+import { SOCIAL_NAV_LINKS } from "@/constants/navSidebar";
+import { WorkspacePopover } from "@/components/popover/WorkspacePopover";
 
 export default function SocialSidebar() {
   const [collapsed, setCollapsed] = useState(false);
   const { activePage, setActivePage } = useSocialNavStore();
 
-  // Update CSS variable dynamically
+    const workspaceName = "Aenigm3 Labs"; // replace with dynamic store/context later
+  const workspaceInitial = workspaceName.trim().charAt(0).toUpperCase();
+
   useEffect(() => {
     document.documentElement.style.setProperty(
       "--sidebar-width",
-      collapsed ? "var(--sidebar-collapsed-width)" : "240px"
+      collapsed ? "var(--sidebar-collapsed-width)" : "256px"
     );
   }, [collapsed]);
 
-  const links = [
-    { id: "home" as const, icon: Home, label: "Home" },
-    { id: "accounts" as const, icon: Users, label: "Accounts" },
-    { id: "posts" as const, icon: Share2, label: "Posts" },
-      { id: "calendar" as const, icon: Calendar, label: "Calendar" }, // added
-
-    { id: "messages" as const, icon: MessageSquare, label: "Messages" },
-    { id: "connect" as const, icon: Plug, label: "Connect" },
-  ];
-
   return (
-    <div className="border-r bg-background transition-all duration-300 h-full">
-      <div className="flex h-14 items-center justify-end px-3 border-b">
-        <Button variant="ghost" size="icon" onClick={() => setCollapsed(!collapsed)}>
-          {collapsed ? <ChevronRight /> : <ChevronLeft />}
+    <div className="border-r bg-background transition-all duration-500 h-full">
+      <div className="flex h-14 items-center justify-between px-3 border-b bg-gray-200/70">
+        <WorkspacePopover collapsed={collapsed} workspaceName={workspaceName} workspaceInitial={workspaceInitial} />
+
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => setCollapsed((v) => !v)}
+          aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+        >
+          {collapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
         </Button>
       </div>
-
       <nav className="space-y-1 p-2">
-        {links.map((link) => {
+        {SOCIAL_NAV_LINKS.map((link) => {
           const Icon = link.icon;
           const isActive = activePage === link.id;
 

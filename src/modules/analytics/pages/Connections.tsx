@@ -34,7 +34,7 @@ export default function ConnectionPage() {
   const showPages = tab !== "paid" && organic.length > 0;
 
   const [selectedAsset, setSelectedAsset] = useState<Asset | null>(null);
-  const { data, isFetching, isError } = useAnalytics(selectedAsset?.type!, selectedAsset?.externalId || "");
+  const { data, isFetching } = useAnalytics(selectedAsset?.type!, selectedAsset?.externalId || "");
 
   useEffect(() => {
     if (!selectedAsset?.id || !data) return;

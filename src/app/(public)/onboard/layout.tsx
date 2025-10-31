@@ -12,9 +12,9 @@ export default async function OnboardLayout({ children }: { children: ReactNode 
   }
 
   return (
-    <div className="min-h-screen bg-black text-white">
+      <div className="grid h-[100dvh] grid-rows-[var(--header-height)_1fr]">
       <Header />
-      <main className="p-6">{children}</main>
+      {children}
     </div>
   );
 }

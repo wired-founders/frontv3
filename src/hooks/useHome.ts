@@ -55,19 +55,3 @@ export function useChannels() {
   });
 }
 
-// export function useAssets() {
-//   const socialAccounts = useUserStore((s) => s.socialAccounts);
-//   const accountIds = socialAccounts.map((acc) => acc.id);
-
-//   return useQuery({
-//     queryKey: ["assets", accountIds],
-//     queryFn: () => getAssets(accountIds),
-//     enabled: accountIds.length > 0,
-//     staleTime: 5 * 60 * 1000, // Data fresh for 5 minutes
-//     gcTime: 10 * 60 * 1000, // Cache for 10 minutes
-//     refetchOnWindowFocus: false, // Don't refetch on tab switch
-//   });
-// }
-// // Add more home module queries here
-// export function useWorkspace() { ... }
-// export function useTeam() { ... }

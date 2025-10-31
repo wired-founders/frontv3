@@ -22,7 +22,7 @@ export async function fetchAnalytics(type: AssetType, externalId: string) {
 
   const path = pathMap[type];
   const paramKey = paramKeyMap[type];
-  const url = `${apiUrl}/api/analy/${path}?${paramKey}=${encodeURIComponent(externalId)}`;
+  const url = `${apiUrl}/api/analytics/${path}?${paramKey}=${encodeURIComponent(externalId)}`;
 
   const res = await fetch(url, {
     method: "GET",

@@ -14,7 +14,6 @@
  *    - Tallies child assets by their `assetType`.
  *    - Leaves existing `counts` untouched.
  */
-import { BusinessGroup } from "@/types/home_types";
 
 export function normalizeWebsite(raw: string | undefined | null): string {
   if (!raw) return "";
@@ -34,17 +33,5 @@ export function normalizeWebsite(raw: string | undefined | null): string {
     // if it's still garbage, return original so RHF can show error
     return s;
   }
-}
-
-// 2. Add counts for asset types in business groups
-export function addGroupCounts(groups: BusinessGroup[]): BusinessGroup[] {
-  return groups.map((g) => {
-    if (g.counts) return g;
-    const counts = g.children.reduce<Record<string, number>>((m, c) => {
-      m[c.assetType] = (m[c.assetType] || 0) + 1;
-      return m;
-    }, {});
-    return { ...g, counts };
-  });
 }
 

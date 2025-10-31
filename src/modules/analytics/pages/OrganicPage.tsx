@@ -1,5 +1,4 @@
 // src\modules\analytics\pages\OrganicPage.tsx
-import { Button } from "@/components/ui";
 export default function OrganicPage() {
   return (
     <div className="p-4 h-full grid grid-rows-[auto_1fr] overflow-hidden bg-gray-200">

@@ -1,6 +1,6 @@
 // src\modules\analytics\layout.tsx
 import DashboardShell from "@/components/layout/dashboard/DashboardShell";
-import Sidebar from "./components/layout/Sidebar";
+import Sidebar from "./components/layout/AnalyticsSidebar";
 import { QueryProvider } from "@/providers/QueryProvider";
 
 export default function AnalyticsLayout({ children }: { children: React.ReactNode }) {

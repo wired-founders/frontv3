@@ -1,7 +1,7 @@
 // src\modules\home\components\modals\ConnectChannelsModal.tsx
 "use client";
 
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button, Card, CardHeader, CardTitle, CardContent } from "@/components/ui";
 import { Facebook, Instagram, Linkedin, Music2, Globe } from "lucide-react";
 import { apiUrl } from "@/config/env.client";

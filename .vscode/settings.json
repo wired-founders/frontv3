@@ -4,8 +4,12 @@
     "**/node_modules": true,
     "**/public": false,
 
+    "**/*.tsbuildinfo": true,
+
     // Config clutter
-    "**/eslint.config.*": true,
+    "**/eslint.config.*": false,
+    "**/.eslintignore*": false,
+
     "**/next-env.d.ts": true,
     "**/next.config.*": false,
 
@@ -16,7 +20,7 @@
     // lockfiles & docs
     "**/package.json": false,
     "**/pnpm-lock.yaml": true,
-    "**/tsconfig.json": true,
+    "**/tsconfig.json": false,
     "**/.gitignore": false,
     "**/tests": false,
 

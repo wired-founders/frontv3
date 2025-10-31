@@ -1,9 +1,12 @@
 // src\modules\home\pages\Company.tsx
-/**
- 1. Fill CompanyForm -> handleSubmit() -> useCreateCompany() -> createCompany() -> Api backend @returns Company
-    - onSuccess setCompany()
- 2. Page render -> useCompany() -> if(comapnyId) -> getCompany() -> defaultValues(company data)
- */
+/* 
+  PRIORITY_NOTE:
+  Do NOT remove this comment. This describes the core flow:
+
+  1. Fill CompanyForm → handleSubmit() → useCreateCompany() → createCompany() → API → Company
+  2. On success, useCompany() → getCompany() → populate defaultValues
+  
+*/
 "use client";
 
 import CompanyForm from "@/components/forms/CompanyForm";
