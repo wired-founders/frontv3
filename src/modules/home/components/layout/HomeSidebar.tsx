@@ -24,7 +24,7 @@ export default function Sidebar() {
 
   return (
     <div className="border-r border-sidebar-border bg-sidebar text-sidebar-foreground transition-all duration-300 h-full">
-      <div className="flex h-14 items-center justify-between px-3 border-b bg-gray-200/70">
+      <div className="flex h-14 items-center justify-between px-3 border-b bg-gray-200/70 dark:bg-gray-800/60 backdrop-blur-sm">
         <WorkspacePopover collapsed={collapsed} workspaceName={workspaceName} workspaceInitial={workspaceInitial} />
 
         <Button

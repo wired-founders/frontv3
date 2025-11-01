@@ -56,7 +56,7 @@ export default function ConnectionPage() {
   return (
     <div className="h-full grid grid-rows-[auto_1fr] overflow-hidden">
       {/* Header with Tabs */}
-      <div className="flex items-center justify-between border-b px-4 py-2 bg-neutral-50 dark:bg-neutral-900">
+      <div className="flex items-center h-14 justify-between border-b px-4 py-2 bg-neutral-50 dark:bg-neutral-900">
         <h2 className="text-lg font-semibold">Connected Entities</h2>
         <Tabs defaultValue="all" value={tab} onValueChange={handleTabChange} className="w-auto">
           <TabsList className="bg-transparent border rounded-md">

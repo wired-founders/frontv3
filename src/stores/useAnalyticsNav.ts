@@ -1,16 +1,15 @@
 // src\stores\useAnalyticsNav.ts
-import { create } from "zustand";
 
 /**
  * Analytics Sidebar Store
  * Keeps track of the active analytics section (Overview, Paid, Organic, etc.)
  */
-
-type AnalyticsSection = "overview" | "paid" | "organic" | "campaigns" | "reports"|'connect';
+import { create } from "zustand";
+import type { AnalyticsSectionId } from "@/constants/navSidebar";
 
 interface AnalyticsNavState {
-  activeSection: AnalyticsSection;
-  setActiveSection: (section: AnalyticsSection) => void;
+  activeSection: AnalyticsSectionId;
+  setActiveSection: (section: AnalyticsSectionId) => void;
 }
 
 export const useAnalyticsNav = create<AnalyticsNavState>((set) => ({

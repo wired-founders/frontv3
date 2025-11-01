@@ -13,7 +13,7 @@ export default function SocialSidebar() {
   const [collapsed, setCollapsed] = useState(false);
   const { activePage, setActivePage } = useSocialNavStore();
 
-    const workspaceName = "Aenigm3 Labs"; // replace with dynamic store/context later
+  const workspaceName = "Aenigm3 Labs"; // replace with dynamic store/context later
   const workspaceInitial = workspaceName.trim().charAt(0).toUpperCase();
 
   useEffect(() => {
@@ -25,7 +25,7 @@ export default function SocialSidebar() {
 
   return (
     <div className="border-r bg-background transition-all duration-500 h-full">
-      <div className="flex h-14 items-center justify-between px-3 border-b bg-gray-200/70">
+      <div className="flex h-14 items-center justify-between px-3 border-b bg-gray-200/70 dark:bg-gray-800/60 backdrop-blur-sm">
         <WorkspacePopover collapsed={collapsed} workspaceName={workspaceName} workspaceInitial={workspaceInitial} />
 
         <Button

@@ -10,9 +10,9 @@ export default function DashboardPage() {
   return (
     <div className="h-full grid grid-rows-[auto_1fr] overflow-hidden">
       {/* Sub Header */}
-      <div className="border-b px-4 py-2 bg-card">
-        <h1 className="text-2xl font-bold">Dashboard</h1>
-        <p className="text-sm text-muted-foreground mt-1">Welcome back, {name}</p>
+      <div className="flex flex-col justify-center border-b px-4 h-14 bg-card">
+        <h1 className="text-lg font-bold leading-tight">Dashboard</h1>
+        <p className="text-xs text-muted-foreground">Welcome back, {name}</p>
       </div>
 
       {/* Content */}

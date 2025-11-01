@@ -21,11 +21,17 @@ export const HOME_NAV_LINKS = [
 ];
 
 export const ANALYTICS_NAV_LINKS = [
-  { id: "overview" as const, icon: BarChart3, label: "Overview" },
-  { id: "organic" as const, icon: LineChart, label: "Organic Insights", hasDropdown: true },
-  { id: "campaigns" as const, icon: TrendingUp, label: "Paid Insights", hasDropdown: true },
-  { id: "connect" as const, icon: Plug, label: "Connect" },
-];
+  { id: "overview",  icon: BarChart3,  label: "Overview" },
+  { id: "organic",   icon: LineChart,  label: "Organic Insights", hasDropdown: true },
+  { id: "campaigns", icon: TrendingUp, label: "Paid Insights" },
+  { id: "connect",   icon: Plug,       label: "Connect" },
+] as const;
+
+export type AnalyticsSectionId =
+  | (typeof ANALYTICS_NAV_LINKS)[number]["id"]
+  | "organic:overview"
+  | "organic:profiles";
+
 
 export const SOCIAL_NAV_LINKS = [
   { id: "home" as const, icon: Home, label: "Home" },

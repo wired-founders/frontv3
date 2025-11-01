@@ -1,17 +1,27 @@
 // src\modules\analytics\pages\OrganicPage.tsx
 import { useUserStore } from "@/providers/UserStoreProvider";
 import { useAssetStore } from "@/stores/useAssetStore";
+import { fetchOrganic } from "@/lib/api/analyticsApi";
 
 export default function OrganicPage() {
   const getByType = useAssetStore((s) => s.getByType);
-  const adAccounts = getByType("ad_account");
+  const page = getByType("page");
+  const instagram = getByType("instagram");
+  const whatsapp = getByType("whatsapp");
+
+  const pageIds = page.map((a) => a.id);
+  const instagramIds = instagram.map((a) => a.id);
+  const whatsappIds = whatsapp.map((a) => a.id);
+
+  const allIds = [...pageIds, ...instagramIds, ...whatsappIds];
+
   const companyId = useUserStore((s) => s.company?.id);
 
-  const handleAddInsight = async () => {
-    // You can perform any actions here, like opening a modal or making an API call
-    console.log("Adding insight for company ID:", companyId);
-    // Example: Open modal or navigate to a new page, etc.
-  };
+ const handleAddInsight = async () => {
+  const data = await fetchOrganic(allIds);
+  console.log("Organic insights:", data);
+};
+
   return (
     <div className="p-6 h-full bg-gray-100 dark:bg-gray-900">
       {/* Subheader Section */}

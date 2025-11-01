@@ -36,7 +36,7 @@ export default function CompanyPage() {
   return (
     <div className="p-4 h-full grid grid-rows-[auto_1fr] overflow-hidden">
       {/* Sub Header */}
-      <div className="border-b px-6 py-4">
+      <div className="flex flex-col justify-center border-b px-4 h-14 bg-card">
         <h1 className="text-2xl font-bold">Company Profile</h1>
       </div>
 

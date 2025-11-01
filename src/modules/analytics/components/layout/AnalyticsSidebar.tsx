@@ -4,16 +4,16 @@
 import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import SidebarItem from "./SidebarItem";
 import { useAnalyticsNav } from "@/stores/useAnalyticsNav";
-import { ANALYTICS_NAV_LINKS } from "@/constants/navSidebar";
+import { ANALYTICS_NAV_LINKS, type AnalyticsSectionId } from "@/constants/navSidebar";
 import { WorkspacePopover } from "@/components/popover/WorkspacePopover";
+import { useUserStore } from "@/providers/UserStoreProvider";
 
 export default function AnalyticsSidebar() {
+  const workspaceName = useUserStore((s) => s.workspace!.name) as string;
   const [collapsed, setCollapsed] = useState(false);
   const { activeSection, setActiveSection } = useAnalyticsNav();
-
-  const workspaceName = "Aenigm3 Labs"; // replace with dynamic store/context later
   const workspaceInitial = workspaceName.trim().charAt(0).toUpperCase();
 
   useEffect(() => {
@@ -23,11 +23,13 @@ export default function AnalyticsSidebar() {
     );
   }, [collapsed]);
 
-  return (
-    <div className="border-r bg-background transition-all duration-500 h-full">
-      <div className="flex h-14 items-center justify-between px-3 border-b bg-gray-200/70">
-        <WorkspacePopover collapsed={collapsed} workspaceName={workspaceName} workspaceInitial={workspaceInitial} />
+  const handleSelect = (id: AnalyticsSectionId) => setActiveSection(id);
 
+  return (
+    <div className="border-r bg-sidebar transition-all duration-500 h-full">
+      {/* Header */}
+      <div className="flex h-14 items-center justify-between px-3 border-b bg-gray-200/70 dark:bg-gray-800/60 backdrop-blur-sm">
+        <WorkspacePopover collapsed={collapsed} workspaceName={workspaceName} workspaceInitial={workspaceInitial} />
         <Button
           variant="ghost"
           size="icon"
@@ -37,27 +39,17 @@ export default function AnalyticsSidebar() {
           {collapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
         </Button>
       </div>
-
+      {/* Nav */}
       <nav className="space-y-1 p-2">
-        {ANALYTICS_NAV_LINKS.map((s) => {
-          const isActive = activeSection === s.id;
-
-          return (
-            <button
-              key={s.id}
-              onClick={() => setActiveSection(s.id as any)}
-              className={cn(
-                "flex w-full items-center gap-3 rounded-lg px-3 py-2 transition-colors text-sm font-medium",
-                isActive ? "bg-primary text-primary-foreground" : "hover:bg-muted",
-                collapsed && "justify-center"
-              )}
-              title={s.label}
-            >
-              {s.icon && <s.icon className="h-4 w-4 shrink-0" />}
-              {!collapsed && <span>{s.label}</span>}
-            </button>
-          );
-        })}
+        {ANALYTICS_NAV_LINKS.map((section) => (
+          <SidebarItem
+            key={section.id}
+            section={section}
+            activeSection={activeSection} // Pass the actual value
+            collapsed={collapsed}
+            onSelect={handleSelect}
+          />
+        ))}
       </nav>
     </div>
   );

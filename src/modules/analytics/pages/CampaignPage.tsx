@@ -35,7 +35,7 @@ export default function CampaignPage() {
 
   return (
     <div className="h-full grid grid-rows-[auto_1fr] overflow-hidden">
-      <div className="flex items-center justify-between border-b px-4 py-2 bg-neutral-50 dark:bg-neutral-900 h-16">
+      <div className="flex items-center justify-between border-b px-4 py-2 bg-neutral-50 dark:bg-neutral-900 h-14">
         <h2 className="text-lg font-semibold">Campaigns</h2>
         {loading && <RouteLoading message="Loading…" />}
       </div>
