@@ -8,12 +8,13 @@ import { cn } from "@/lib/utils";
 import { useSocialNavStore } from "@/stores/useSocialNav";
 import { SOCIAL_NAV_LINKS } from "@/constants/navSidebar";
 import { WorkspacePopover } from "@/components/popover/WorkspacePopover";
+import { useUserStore } from "@/providers/UserStoreProvider";
 
 export default function SocialSidebar() {
   const [collapsed, setCollapsed] = useState(false);
   const { activePage, setActivePage } = useSocialNavStore();
 
-  const workspaceName = "Aenigm3 Labs"; // replace with dynamic store/context later
+  const workspaceName = useUserStore((s) => s.workspace!.name) as string;
   const workspaceInitial = workspaceName.trim().charAt(0).toUpperCase();
 
   useEffect(() => {

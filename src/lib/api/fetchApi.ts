@@ -4,6 +4,8 @@
  2. Get channels
  3. Get Items 
  4. Get Channel Data
+ 5. Get Campaigns
+ 6. Link Campaign Products
  */
 import { apiUrl } from "@/config/env.client";
 import { Company, Item, ChannelsResponse } from "@/types/home_types";
@@ -32,10 +34,6 @@ export async function getItems(): Promise<Item[]> {
 }
 
 export async function fetchChannels(accountIds: string[]): Promise<ChannelsResponse> {
-  // Return mock data directly
-  // return mockChannelsData;
-
-  //Original API call - commented out
   const query = accountIds.map((id) => `accountIds=${encodeURIComponent(id)}`).join("&");
 
   const res = await fetch(`${apiUrl}/api/assets?${query}`, {
@@ -49,3 +47,5 @@ export async function fetchChannels(accountIds: string[]): Promise<ChannelsRespo
   const { groups, assets, entities } = await res.json();
   return { groups, assets, entities };
 }
+
+

@@ -28,7 +28,11 @@ export default function AnalyticsSidebar() {
   return (
     <div className="border-r bg-sidebar transition-all duration-500 h-full">
       {/* Header */}
-      <div className="flex h-14 items-center justify-between px-3 border-b bg-gray-200/70 dark:bg-gray-800/60 backdrop-blur-sm">
+      <div
+        className="flex h-14 items-center justify-between px-3 border-b 
+     bg-background/70 backdrop-blur-sm supports-[backdrop-filter]:bg-background/50"
+      >
+        {" "}
         <WorkspacePopover collapsed={collapsed} workspaceName={workspaceName} workspaceInitial={workspaceInitial} />
         <Button
           variant="ghost"

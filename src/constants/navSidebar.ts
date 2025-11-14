@@ -11,6 +11,7 @@ import {
   BarChart3,
   LineChart,
   TrendingUp,
+  Link,
 } from "lucide-react";
 
 export const HOME_NAV_LINKS = [
@@ -21,17 +22,14 @@ export const HOME_NAV_LINKS = [
 ];
 
 export const ANALYTICS_NAV_LINKS = [
-  { id: "overview",  icon: BarChart3,  label: "Overview" },
-  { id: "organic",   icon: LineChart,  label: "Organic Insights", hasDropdown: true },
+  { id: "overview", icon: BarChart3, label: "Overview" },
+  { id: "organic", icon: LineChart, label: "Organic Insights", hasDropdown: true },
   { id: "campaigns", icon: TrendingUp, label: "Paid Insights" },
-  { id: "connect",   icon: Plug,       label: "Connect" },
+  { id: "connect", icon: Plug, label: "Connect" },
+  { id: "link_campaign", icon: Link, label: "Link Products" },
 ] as const;
 
-export type AnalyticsSectionId =
-  | (typeof ANALYTICS_NAV_LINKS)[number]["id"]
-  | "organic:overview"
-  | "organic:profiles";
-
+export type AnalyticsSectionId = (typeof ANALYTICS_NAV_LINKS)[number]["id"] | "organic:overview" | "organic:profiles";
 
 export const SOCIAL_NAV_LINKS = [
   { id: "home" as const, icon: Home, label: "Home" },

@@ -3,7 +3,7 @@
 
 export default function TestPage() {
   return (
-    <div className="min-h-screen grid grid-rows-[auto_1fr] bg-neutral-50 dark:bg-neutral-900 text-gray-900 dark:text-gray-100">
+    <div className="h-screen grid grid-rows-[auto_1fr] bg-neutral-50 dark:bg-neutral-900 text-gray-900 dark:text-gray-100">
       {/* Subheader Section */}
       <header className="border-b border-neutral-200 dark:border-neutral-800 px-6 py-4">
         <h1 className="text-2xl font-bold tracking-tight">Analytics Overview</h1>

@@ -8,11 +8,13 @@ import { cn } from "@/lib/utils";
 import { useHomeNavStore } from "@/stores/useHomeNav";
 import { WorkspacePopover } from "@/components/popover/WorkspacePopover";
 import { HOME_NAV_LINKS } from "@/constants/navSidebar";
+import { useUserStore } from "@/providers/UserStoreProvider";
 
 export default function Sidebar() {
   const [collapsed, setCollapsed] = useState(false);
   const { activePage, setActivePage } = useHomeNavStore();
-  const workspaceName = "Aenigm3 Labs"; // replace with dynamic store/context later
+
+  const workspaceName = useUserStore((s) => s.workspace!.name) as string;
   const workspaceInitial = workspaceName.trim().charAt(0).toUpperCase();
 
   useEffect(() => {
@@ -24,12 +26,16 @@ export default function Sidebar() {
 
   return (
     <div className="border-r border-sidebar-border bg-sidebar text-sidebar-foreground transition-all duration-300 h-full">
-      <div className="flex h-14 items-center justify-between px-3 border-b bg-gray-200/70 dark:bg-gray-800/60 backdrop-blur-sm">
+      <div
+        className="flex h-14 items-center justify-between px-3 border-b 
+     bg-background/70 backdrop-blur-sm supports-[backdrop-filter]:bg-background/50"
+      >
+        {" "}
         <WorkspacePopover collapsed={collapsed} workspaceName={workspaceName} workspaceInitial={workspaceInitial} />
-
         <Button
           variant="ghost"
           size="icon"
+          className="text-muted-foreground hover:text-foreground focus-visible:ring-2 focus-visible:ring-primary/40"
           onClick={() => setCollapsed((v) => !v)}
           aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
         >

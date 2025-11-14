@@ -79,24 +79,26 @@ export default function Header({ onLogout }: HeaderProps) {
       <div className="mx-auto flex h-14 max-w-screen-2xl items-center justify-between px-3 sm:px-6">
         {/* Left: Logo */}
         <div className="flex items-center gap-3">
-          <Image src="/kordor-logo.svg" alt="App logo" width={32} height={32} priority className="h-8 w-auto" />
+          <Image src="/kordor-logo.svg" alt="App logo" width={32} height={32} priority className="h-10 w-auto" />
         </div>
 
         {/* Center: Nav */}
-        <nav className="absolute left-1/2 -translate-x-1/2 flex gap-4">
+        {/* Center: Nav */}
+        <nav className="absolute left-1/2 -translate-x-1/2 flex gap-1 rounded-lg bg-background/60 backdrop-blur-sm px-1.5 py-0.5 border border-border/40 shadow-sm">
           {navItems.map((item) => {
             const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
             return (
               <Link
                 key={item.href}
                 href={item.href}
-                className={`text-sm px-3 py-1.5 rounded transition-colors ${
-                  active
-                    ? "bg-primary text-primary-foreground font-medium"
-                    : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
-                }`}
+                className={`
+          relative text-sm font-medium px-3 py-1.5 rounded-md transition-all duration-200
+          ${active ? "text-foreground" : "text-muted-foreground hover:text-foreground"}
+          focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40
+        `}
               >
                 {item.label}
+                {active && <span className="absolute inset-x-1 bottom-0 h-[2px] rounded-full bg-primary" />}
               </Link>
             );
           })}

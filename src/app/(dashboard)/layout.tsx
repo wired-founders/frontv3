@@ -17,6 +17,7 @@ import { redirect } from "next/navigation";
 import { checkSession } from "@/lib/api/serverAuthApi";
 import Header from "@/components/layout/dashboard/Header";
 import { UserStoreProvider } from "@/providers/UserStoreProvider";
+import ChatBot from "@/components/bot/ChatBot";
 
 export default async function AuthLayout({ children }: { children: React.ReactNode }) {
   const result = await checkSession();
@@ -38,8 +39,8 @@ export default async function AuthLayout({ children }: { children: React.ReactNo
     >
       <div className="grid h-[100dvh] grid-rows-[var(--header-height)_1fr]">
         <Header />
-        {/* Children row will contain the module's AppShell with its own sidebar */}
         {children}
+         <ChatBot />
       </div>
     </UserStoreProvider>
   );

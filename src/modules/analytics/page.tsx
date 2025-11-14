@@ -9,6 +9,7 @@ import {
   OrganicPage,
   OrganicOverviewPage,
   OrganicProfilesPage,
+  CampaignProductLinkPage,
 } from "./pages";
 
 export default function AnalyticsHome() {
@@ -21,6 +22,8 @@ export default function AnalyticsHome() {
       return <AnalyticsPage />;
     case "campaigns":
       return <CampaignPage />;
+    case "link_campaign":
+      return <CampaignProductLinkPage />;
     case "organic":
       return <OrganicPage />;
     case "organic:overview":

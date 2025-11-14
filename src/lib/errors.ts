@@ -1,5 +1,4 @@
 // src\lib\errors.ts
-// src/lib/errors/BaseError.ts
 export type ErrorCode =
   | "NETWORK"
   | "AUTH"

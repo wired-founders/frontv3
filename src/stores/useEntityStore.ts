@@ -1,5 +1,4 @@
 // src\stores\useEntityStore.ts
-// src/stores/useEntityGraph.ts
 import { create } from "zustand";
 
 type EntityType = "campaign" | "ad_set" | "ad" | "creative";

@@ -62,7 +62,7 @@ export default function CampaignPage() {
                         <p>Spend: ${m.metrics.spend ?? 0}</p>
                         <p>Clicks: {m.metrics.clicks ?? 0}</p>
                         <p>CPC: ${m.metrics.cpc ?? 0}</p>
-                        <p>CTR: {(m.metrics.ctr ?? 0).toFixed(3)}%</p>
+                        <p>CTR: {(Number(m.metrics.ctr) || 0).toFixed(3)}%</p>{" "}
                         <p className="col-span-2">Impressions: {m.metrics.impressions ?? 0}</p>
                       </div>
                     </div>

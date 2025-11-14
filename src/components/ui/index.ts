@@ -13,13 +13,13 @@ export * from "./dialog";
 export * from "./dropdown-menu";
 export * from "./input";
 //export * from "./scroll-area";
-//export * from "./select";
+export * from "./select";
 export * from "./separator";
 //export * from "./skeleton";
 //export * from "./table";
 export * from "./tabs";
 //export * from "./textarea";
-//export * from "./tooltip";
+export * from "./tooltip";
 export * from './accordion'
 
 // Custom

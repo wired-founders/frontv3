@@ -9,9 +9,9 @@ import {
 } from "@/components/ui"; // <- import from the dialog file, not a barrel
 import { cn } from "@/lib/utils";
 import { ReactNode } from "react";
-import { FaFacebook, FaInstagram, FaLinkedin, FaYoutube } from "react-icons/fa6";
+import { FaFacebook, FaInstagram, FaLinkedin, FaYoutube, FaTiktok } from "react-icons/fa6";
 
-export type Provider = "facebook" | "instagram" | "linkedin" | "youtube";
+export type Provider = "facebook" | "instagram" | "linkedin" | "youtube"| "google"| 'tiktok';
 
 type PlatformTile = {
   id: Provider;
@@ -34,9 +34,10 @@ type Props = {
 
 const DEFAULT_PLATFORMS: PlatformTile[] = [
   { id: "facebook", name: "Facebook", subtitle: "Pages, Ad Accounts", icon: <FaFacebook />, isNew: true },
-  { id: "instagram", name: "Instagram", subtitle: "IG Accounts, Media", icon: <FaInstagram />, isComingSoon: true },
-  { id: "linkedin", name: "LinkedIn", subtitle: "Company Pages", icon: <FaLinkedin />, isComingSoon: true },
-  { id: "youtube", name: "YouTube", subtitle: "Channels, Videos", icon: <FaYoutube />, isComingSoon: true },
+  { id: "instagram", name: "Instagram", subtitle: "IG Accounts, Media", icon: <FaInstagram />, isComingSoon: false },
+  { id: "linkedin", name: "LinkedIn", subtitle: "Company Pages", icon: <FaLinkedin />, isComingSoon: false },
+  { id: "google", name: "YouTube", subtitle: "Channels, Videos", icon: <FaYoutube />, isComingSoon: false },
+   { id: "tiktok", name: "TikTok", subtitle: "Accounts, Videos, Insights", icon: <FaTiktok />, isComingSoon: true },
 ];
 
 export function ConnectChannelsModal({
