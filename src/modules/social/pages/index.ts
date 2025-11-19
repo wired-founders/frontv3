@@ -1,7 +1,8 @@
 // src\modules\social\pages\index.ts
 export { default as SocialHomePage } from "./SocialHome";
 export { default as ConnectPage } from "./ConnectPage";
-export { default as CalendarPage} from './CalendarPage'
+export { default as CalendarPage } from "./CalendarPage";
+export { default as CreatePostPage } from "./CreatePostPage";
 /**
  * 1/3
 Complete your setup

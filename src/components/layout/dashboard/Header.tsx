@@ -1,6 +1,9 @@
 // src\components\layout\dashboard\Header.tsx
 /**
- *
+ 1. 
+ 2. 
+ 3. 
+ 4. 
  */
 "use client";
 
@@ -15,9 +18,11 @@ import {
   DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuRadioItem,
   DropdownMenuSeparator,
   DropdownMenuLabel,
   DropdownMenuGroup,
+  DropdownMenuRadioGroup,
   DropdownMenuShortcut,
   DropdownMenuSub,
   DropdownMenuSubTrigger,
@@ -82,7 +87,6 @@ export default function Header({ onLogout }: HeaderProps) {
           <Image src="/kordor-logo.svg" alt="App logo" width={32} height={32} priority className="h-10 w-auto" />
         </div>
 
-        {/* Center: Nav */}
         {/* Center: Nav */}
         <nav className="absolute left-1/2 -translate-x-1/2 flex gap-1 rounded-lg bg-background/60 backdrop-blur-sm px-1.5 py-0.5 border border-border/40 shadow-sm">
           {navItems.map((item) => {
@@ -149,18 +153,31 @@ export default function Header({ onLogout }: HeaderProps) {
 
                 <DropdownMenuPortal>
                   <DropdownMenuSubContent>
-                    <DropdownMenuItem onClick={() => setTheme("light")}>
-                      <Sun className="mr-2 h-4 w-4" />
-                      <span>Light</span>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => setTheme("dark")}>
-                      <Moon className="mr-2 h-4 w-4" />
-                      <span>Dark</span>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => setTheme("system")}>
-                      <span className="mr-2 inline-block h-4 w-4 rounded border" />
-                      <span>System</span>
-                    </DropdownMenuItem>
+                    <DropdownMenuRadioGroup
+                      value={theme ?? "system"}
+                      onValueChange={(value) => setTheme(value as "light" | "dark" | "system")}
+                    >
+                      <DropdownMenuRadioItem value="light">
+                        <div className="flex items-center gap-2">
+                          <Sun className="h-4 w-4" />
+                          <span>Light</span>
+                        </div>
+                      </DropdownMenuRadioItem>
+
+                      <DropdownMenuRadioItem value="dark">
+                        <div className="flex items-center gap-2">
+                          <Moon className="h-4 w-4" />
+                          <span>Dark</span>
+                        </div>
+                      </DropdownMenuRadioItem>
+
+                      <DropdownMenuRadioItem value="system">
+                        <div className="flex items-center gap-2">
+                          <span className="inline-block h-4 w-4 rounded border" />
+                          <span>System</span>
+                        </div>
+                      </DropdownMenuRadioItem>
+                    </DropdownMenuRadioGroup>
                   </DropdownMenuSubContent>
                 </DropdownMenuPortal>
               </DropdownMenuSub>

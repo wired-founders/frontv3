@@ -5,13 +5,13 @@ import {
   Package,
   Share2,
   Home,
-  Users,
   Calendar,
   Plug,
   BarChart3,
   LineChart,
   TrendingUp,
   Link,
+  PenSquare,
 } from "lucide-react";
 
 export const HOME_NAV_LINKS = [
@@ -33,8 +33,7 @@ export type AnalyticsSectionId = (typeof ANALYTICS_NAV_LINKS)[number]["id"] | "o
 
 export const SOCIAL_NAV_LINKS = [
   { id: "home" as const, icon: Home, label: "Home" },
-  { id: "accounts" as const, icon: Users, label: "Accounts" },
-  { id: "posts" as const, icon: Share2, label: "Posts" },
+  { id: "create" as const, icon: PenSquare, label: "Create Post" },
   { id: "calendar" as const, icon: Calendar, label: "Calendar" },
   { id: "connect" as const, icon: Plug, label: "Connect" },
 ];

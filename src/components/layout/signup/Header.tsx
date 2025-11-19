@@ -1,5 +1,5 @@
 // src\components\layout\signup\Header.tsx
-import Link from 'next/link'
+import Link from "next/link";
 
 export default function AuthHeader() {
   return (
@@ -22,5 +22,5 @@ export default function AuthHeader() {
         </Link>
       </div>
     </header>
-  )
+  );
 }

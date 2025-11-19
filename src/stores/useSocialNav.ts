@@ -1,7 +1,7 @@
 // src\stores\useSocialNav.ts
 import { create } from "zustand";
 
-type PageId = "home" | "accounts" | "posts"| "calendar" | "connect";
+type PageId = "home" | "accounts" | "posts"| "calendar" | "connect"|"create";
 
 type State = {
   activePage: PageId;

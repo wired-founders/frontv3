@@ -1,5 +1,4 @@
 // src\app\(public)\ana\layout.tsx
-import type { ReactNode } from "react";
 import CalmSidebar from "./CalmSidebar";
 import Header from "./Header";
 

@@ -3,7 +3,7 @@ import { CampaignQuery } from "./anaTypes";
 
 function toQueryString(params: Record<string, any>) {
   return Object.entries(params)
-    .filter(([_, v]) => v !== undefined && v !== null)
+    .filter(([, v]) => v !== undefined && v !== null)
     .map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`)
     .join("&");
 }

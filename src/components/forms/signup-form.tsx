@@ -1,24 +1,20 @@
 // src\components\forms\signup-form.tsx
+/**
+ 1. RootLayout: global HTML/body shell, fonts, theme, toaster
+ 2. AuthLayout: auth-only shell flex, column, full-screen( header + main )
+ 3. Main: 
+ */
 "use client";
 
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Button, Input, Label, Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui";
-
-import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
-import { z } from "zod";
 import { VerificationModal } from "@/components/modals/verification-modal";
 import { handleEmailSignup, handleGoogleSignup } from "@/lib/api/authApi";
-
-const signupSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters"),
-  email: z.string().email("Invalid email address"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
-});
-
-type SignupData = z.infer<typeof signupSchema>;
+import { signupSchema, type SignupData } from "@/modules/auth/validation";
 
 export function SignupForm({ className, ...props }: React.ComponentProps<typeof Card>) {
   const [showVerification, setShowVerification] = useState(false);
@@ -57,7 +53,7 @@ export function SignupForm({ className, ...props }: React.ComponentProps<typeof 
 
         <CardContent>
           <form noValidate onSubmit={handleSubmit(onSubmit)}>
-            <div className="grid gap-4">
+            <div className="grid gap-2">
               {/* Google OAuth */}
 
               <Button type="button" variant="outline" className="w-full" onClick={handleGoogleSignup}>

@@ -1,5 +1,4 @@
 // src\modules\analytics\pages\OrganicPage.tsx
-import { useUserStore } from "@/providers/UserStoreProvider";
 import { useAssetStore } from "@/stores/useAssetStore";
 import { fetchOrganic } from "@/lib/api/analyticsApi";
 
@@ -15,7 +14,6 @@ export default function OrganicPage() {
 
   const allIds = [...pageIds, ...instagramIds, ...whatsappIds];
 
-  const companyId = useUserStore((s) => s.company?.id);
 
  const handleAddInsight = async () => {
   const data = await fetchOrganic(allIds);

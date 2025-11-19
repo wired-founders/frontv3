@@ -18,7 +18,6 @@ import {
   RefreshCw,
   ListFilter,
   ArrowUpDown,
-  MousePointer2,
   Facebook,
   Instagram,
   CandlestickChart,

@@ -1,5 +1,11 @@
 // src\app\(dashboard)\layout.tsx
+/**
+ * RootLayout: global HTML/body shell, fonts, theme, toaster
+ * AuthLayout: auth-only shell (header + full-screen column)
+ * signup/page: centers signup form in the viewport
+ * SignupForm: card UI + fields + validation
 
+ */
 /**
  * Handles authentication checks and redirects before rendering dashboard.
  *

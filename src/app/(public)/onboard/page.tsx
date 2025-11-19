@@ -90,7 +90,7 @@ export default function OnboardPage() {
           {/* Step 1: Role */}
           {step === 1 && (
             <>
-              <h1 className="text-4xl font-bold text-center mb-12">What's your role?</h1>
+              <h1 className="text-4xl font-bold text-center mb-12">What&apos;s your role?</h1>
               <div className="flex flex-wrap gap-3 justify-center">
                 {ROLES.map((role) => (
                   <button
@@ -108,7 +108,7 @@ export default function OnboardPage() {
                 ))}
               </div>
               <p className="text-center text-gray-500 text-sm mt-8">
-                Don't worry, you can always add more in the future.
+                Don&apos;t worry, you can always add more in the future.
               </p>
             </>
           )}
@@ -134,7 +134,7 @@ export default function OnboardPage() {
                 ))}
               </div>
               <p className="text-center text-gray-500 text-sm mt-8">
-                Don't worry, you can always add more in the future.
+                Don&apos;t worry, you can always add more in the future.
               </p>
             </>
           )}
@@ -160,7 +160,7 @@ export default function OnboardPage() {
                 ))}
               </div>
               <p className="text-center text-gray-500 text-sm mt-8">
-                Don't worry, you can always add more in the future.
+                Don&apos;t worry, you can always add more in the future.
               </p>
             </>
           )}

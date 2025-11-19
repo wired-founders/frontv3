@@ -9,14 +9,7 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { z } from "zod";
-
-const loginSchema = z.object({
-  email: z.string().email("Invalid email address"),
-  password: z.string().min(1, "Password is required"),
-});
-
-type LoginData = z.infer<typeof loginSchema>;
+import { loginSchema, type LoginData } from "@/modules/auth/validation";
 
 export function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
   const router = useRouter();
@@ -66,7 +59,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
               </div>
 
               {/* Email Field */}
-              <div className="grid gap-2">
+              <div className="grid gap-1">
                 <Label htmlFor="email">Email</Label>
                 <Input
                   id="email"
@@ -80,7 +73,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
               </div>
 
               {/* Password Field */}
-              <div className="grid gap-2">
+              <div className="grid gap-1">
                 <div className="flex items-center justify-between">
                   <Label htmlFor="password">Password</Label>
                   <Link href="/forgot-password" className="text-sm underline-offset-4 hover:underline">
